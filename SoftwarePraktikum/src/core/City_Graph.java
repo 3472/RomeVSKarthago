@@ -360,7 +360,14 @@ public class City_Graph implements Iterable<City>{
     }
     
     
+    
     // johannes
+    /**
+	 * 
+	 * @param move
+	 * @return returns the new graph after the move if the move is valid
+	 * otherwise it returns the unchanged graph
+	 */
     public City_Graph gameStateTransition(Move move) {
 		
 		return null;
