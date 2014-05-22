@@ -353,12 +353,14 @@ public class City_Graph implements Iterable<City>{
 	}
     
     
+    // maurice
     public String convertGameStateToString() {
     	
     	return null;
     }
     
     
+    // johannes
     public City_Graph gameStateTransition(Move move) {
 		
 		return null;
