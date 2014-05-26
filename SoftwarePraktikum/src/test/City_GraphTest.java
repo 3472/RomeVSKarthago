@@ -192,6 +192,7 @@ public class City_GraphTest {
 	// test kai
 	@Test
 	public void printOutGameStateTransitionTest() {
-		//Programm fehlt noch, bzw finde ich nicht O.o
+		GameStateTest gameState = new GameStateTest();
+		
 	}
 }
