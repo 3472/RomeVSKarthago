@@ -17,5 +17,9 @@ public class Move {
 		
 		return null;
 	}
+	
+	public String toString(){
+		return player == Player.Rom? "R" : "C" +" "+targetCityID;
+	}
 
 }

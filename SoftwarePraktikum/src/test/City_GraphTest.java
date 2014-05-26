@@ -125,7 +125,16 @@ public class City_GraphTest {
 	// test kai
 	@Test
 	public void createMoveFromStringTest() {
+		Move move = "R 5";
 		
+		assertEquals(move.toString(),"R 5");
+	}
+	
+	@Test
+	public void createMoveFromStringTest() {
+		Move move = "C 3";
+		
+		assertEquals(move.toString(),"C 3");
 	}
 	
 	
@@ -133,19 +142,55 @@ public class City_GraphTest {
 	@Test
 	public void convertGameStateToStringTest() {
 		
+		City_Graph city_graph2 = new City_Graph();
+
+		city_graph2.loadMap("res/test.mp");
+		
+		assertEquals(city_graph2.convertGameStateToString(),"CNNR");
+	}
+	
+	@Test
+	public void convertGameStateToStringTest2() {
+		
+		City_Graph city_graph2 = new City_Graph();
+
+		city_graph2.loadMap("res/test2.mp");
+		
+		assertEquals(city_graph2.convertGameStateToString(),"CRNNNNRNNC");
 	}
 	
 	
 	// test kai
 	@Test
 	public void gameStateTransitionTest() {
+		City_Graph city_graph2 = new City_Graph();
+
+		city_graph2.loadMap("res/test.mp");
 		
+		Move move = new Move("R 2");
+		
+		city_graph2 = city_graph2.gameStateTransition(move);
+		
+		assertEquals(city_graph2.convertGameStateToString(),"NRNR");
+	}
+	
+	@Test
+	public void gameStateTransitionTest2() {
+		City_Graph city_graph2 = new City_Graph();
+
+		city_graph2.loadMap("res/test2.mp");
+		
+		Move move = new Move("R 2");
+		
+		city_graph2 = city_graph2.gameStateTransition(move);
+		
+		assertEquals(city_graph2.convertGameStateToString(),"NRNR");
 	}
 	
 		
 	// test kai
 	@Test
 	public void printOutGameStateTransitionTest() {
-		
+		//Programm fehlt noch, bzw finde ich nicht O.o
 	}
 }
