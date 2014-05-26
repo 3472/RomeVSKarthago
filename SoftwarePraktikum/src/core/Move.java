@@ -18,6 +18,8 @@ public class Move {
 		return null;
 	}
 	
+	
+	//Kai
 	public String toString(){
 		return player == Player.Rom? "R" : "C" +" "+targetCityID;
 	}

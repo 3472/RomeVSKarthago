@@ -130,6 +130,7 @@ public class City_GraphTest {
 		assertEquals(move.toString(),"R 5");
 	}
 	
+	//test Kai
 	@Test
 	public void createMoveFromStringTest() {
 		Move move = "C 3";
