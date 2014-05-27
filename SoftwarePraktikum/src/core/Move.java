@@ -11,6 +11,13 @@ public class Move {
 		targetCityID = id;
 	}
 	
+	public int getCityID(){
+		return targetCityID;
+	}
+	
+	public Player getPlayer(){
+		return player;
+	}
 	
 	// maurice
 	public Move createMoveFromString(String instruction) {

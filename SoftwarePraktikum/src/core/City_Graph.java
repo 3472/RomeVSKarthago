@@ -356,7 +356,25 @@ public class City_Graph implements Iterable<City>{
     // maurice
     public String convertGameStateToString() {
     	
-    	return null;
+    	
+    	// Hey Maurice
+    	// habe die Funktion mal kurz implementiert
+    	// um die Aufgabe 4 zu testen, kannst sie gerne 
+    	// neu schreiben
+    	String ergebniss = "";
+    	Iterator<City> it = this.iterator();
+    	while(it.hasNext()){
+    		City c = it.next();
+    		if(c.getOwner() == Owner.Cathargo){
+    			ergebniss += "C";
+    		}else if(c.getOwner() == Owner.Rom){
+    			ergebniss += "R";
+    		}else{
+    			ergebniss += "N";
+    		}
+
+    	}
+    	return ergebniss;
     }
     
     
@@ -369,9 +387,58 @@ public class City_Graph implements Iterable<City>{
 	 * otherwise it returns the unchanged graph
 	 */
     public City_Graph gameStateTransition(Move move) {
+    	
+    	City_Graph nextGraph = this.copy();
+    	
+    	// stadt gibts nicht
+    	if(!cityList.containsID(move.getCityID())){
+    		return nextGraph;
+    	}
 		
-		return null;
+    	// stadt gehrt nicht neutral
+    	if(cityList.getCityByID(move.getCityID()).getOwner() != Owner.Neutral){
+    		return nextGraph;
+    	}
+    	
+    	nextGraph.changeCityOwner(move.getCityID(), PlayerToOwner(move.getPlayer()));
+    	
+		return nextGraph;
 	}
     
+    /**
+     * removes the old City, adds city with same id but new owner
+     * @param cityID id of the city
+     * @param newOwner newOwner of the city
+     */
+    public void changeCityOwner(int cityID, Owner newOwner){
+    	City c = cityList.changeCityOwner(cityID, newOwner);
+    	Iterator<Path> it = pathList.iterator();
+    	while(it.hasNext()){
+    		Path p = it.next();
+    		if(p.containsID(cityID)){
+    			p.updateCity(c);
+    		}
+    	}
+    }
     
+    private Owner PlayerToOwner(Player p){
+    	if(p == Player.Cathargo){
+    		return Owner.Cathargo;
+    	}
+    	return Owner.Rom;
+    }
+    
+    public City_Graph copy(){
+    	City_Graph nextCity = new City_Graph();
+    	
+
+    	nextCity.setContainers(cityList.copy(), pathList);
+    	return nextCity;
+    }
+    
+    public void setContainers(VertexSet S, ArrayList<Path> P){
+    	this.cityList = S;
+    	this.pathList = P;
+    }
+   
 }

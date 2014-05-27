@@ -115,4 +115,26 @@ public class VertexSet implements Iterable<City>{
 		return this.cityMap.hashCode();
 	}
 
+	
+	public VertexSet copy(){
+		VertexSet tmp = new VertexSet();
+		tmp.addVertexSet(this);
+		return tmp;
+	}
+	
+	
+	/**
+	 * 
+	 * @param cityID  ID of the City the Owner got changed
+	 * @param newOwner	New Owner of the City
+	 * @return returns the new City(but the City is already added in the function)
+	 */
+	public City changeCityOwner(int cityID, Owner newOwner){
+		int tmpX = cityMap.get(cityID).getXLocation();
+		int tmpY = cityMap.get(cityID).getYLocation();
+		this.removeID(cityID);
+		City c = new City(cityID, tmpX, tmpY, newOwner);
+		this.addVertex(c);
+		return c;
+	}
 }

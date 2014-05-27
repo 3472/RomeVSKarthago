@@ -2,6 +2,10 @@ package core;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -71,6 +75,69 @@ public class Board extends JPanel{
 		jframe.add(this);
 		jframe.setVisible(true);
 		repaint();
+	
+		
+		
+		/*
+		 * Nur zum Test: Movefile wird gelesen
+		 * (Aufgabe 4)
+		 */
+		
+		System.out.println(city_graph.convertGameStateToString());
+		
+		BufferedReader fileReader = null;
+		String line = null;
+
+		
+		try {
+			fileReader = new BufferedReader(new FileReader("res/movePattern1.move"));
+			 line = fileReader.readLine();
+		
+		} catch (FileNotFoundException e) {
+			System.out.println("Failed to read File");
+		} catch(IOException e) {
+			System.out.println("Failed to read File");
+		}
+		
+		Move nextMove = null;
+		while(line != null){
+			
+			try{
+				Thread.sleep(3000);
+			}catch(InterruptedException ex){
+				ex.printStackTrace();
+			}
+			
+			int id = Integer.parseInt(line.split(" ")[1]);
+			Player p = null;
+			String s = line.split(" ")[0];
+			if(s.equals("R")){
+				p = Player.Rom;
+			}else{
+				p = Player.Cathargo;
+			}
+			
+			System.out.println("Player " + s + " trys to Capture City " + id);
+			nextMove = new Move(p, id);
+			city_graph = city_graph.gameStateTransition(nextMove);
+			
+			
+			try{
+				line = fileReader.readLine();
+			}catch(IOException ex){
+				ex.printStackTrace();
+			}
+			
+			System.out.println(city_graph.convertGameStateToString());
+			
+			repaint();
+			
+		}
+		
+		/*
+		 * test ende
+		 */
+	
 	}
 	
 
