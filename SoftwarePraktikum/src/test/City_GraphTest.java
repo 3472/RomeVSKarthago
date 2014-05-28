@@ -125,15 +125,15 @@ public class City_GraphTest {
 	// test kai
 	@Test
 	public void createMoveFromStringTest() {
-		Move move = "R 5";
+		Move move = new Move("R 5");
 		
 		assertEquals(move.toString(),"R 5");
 	}
 	
 	//test Kai
 	@Test
-	public void createMoveFromStringTest() {
-		Move move = "C 3";
+	public void createMoveFromStringTest2() {
+		Move move = new Move("C 3");
 		
 		assertEquals(move.toString(),"C 3");
 	}
