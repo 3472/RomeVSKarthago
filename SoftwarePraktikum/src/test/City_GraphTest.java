@@ -8,6 +8,7 @@ import core.City;
 import core.City_Graph;
 import core.Move;
 import core.Owner;
+import core.Player;
 import core.VertexSet;
 
 
@@ -121,13 +122,21 @@ public class City_GraphTest {
 		assertEquals(city_graph.getScore(Owner.Cathargo), 2);
 	}
 	
+	// test Gerald
+	@Test
+	public void moveToStringTest() {
+		
+		Move move = new Move(Player.Rom, 4);
+		assertEquals("R 4", move.toString());
+	}
 	
 	// test kai
 	@Test
 	public void createMoveFromStringTest() {
+		
 		Move move = new Move("R 5");
 		
-		assertEquals(move.toString(),"R 5");
+		assertEquals("R 5", move.toString());
 	}
 	
 	//test Kai
@@ -135,7 +144,7 @@ public class City_GraphTest {
 	public void createMoveFromStringTest2() {
 		Move move = new Move("C 3");
 		
-		assertEquals(move.toString(),"C 3");
+		assertEquals("C 3", move.toString());
 	}
 	
 	
@@ -172,7 +181,7 @@ public class City_GraphTest {
 		
 		city_graph2 = city_graph2.gameStateTransition(move);
 		
-		assertEquals(city_graph2.convertGameStateToString(),"NRNR");
+		assertEquals(city_graph2.convertGameStateToString(),"CNRR");
 	}
 	
 	@Test
@@ -185,7 +194,7 @@ public class City_GraphTest {
 		
 		city_graph2 = city_graph2.gameStateTransition(move);
 		
-		assertEquals(city_graph2.convertGameStateToString(),"NRNR");
+		assertEquals(city_graph2.convertGameStateToString(),"CRRNNNRNNC");
 	}
 	
 		

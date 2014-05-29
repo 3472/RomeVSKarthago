@@ -13,9 +13,10 @@ public class Move {
 	
 	
 	public Move(String instruction) {
-		Move move = createMoveFromString(instruction);
-		player = move.player;
-		targetCityID = move.targetCityID;
+		Move move = createMoveFromString(instruction);				
+	
+		this.player = move.player;
+		this.targetCityID = move.targetCityID; 
 	}
 	
 	public int getCityID(){
@@ -29,13 +30,23 @@ public class Move {
 	// maurice
 	public Move createMoveFromString(String instruction) {
 		
-		return null;
+		String[] Split = instruction.split(" ");
+		String owner = Split[0];
+		int ID = Integer.parseInt(Split[1]);
+		Player player = null;
+		
+		if(owner.equals(Character.toString('R'))) player =  Player.Rom;
+		else if(owner.equals(Character.toString('C'))) player  = Player.Cathargo;
+		
+		Move move = new Move(player, ID);
+		return move;
 	}
 	
 	
 	//Kai
-	public String toString(){
-		return player == Player.Rom? "R" : "C" +" "+targetCityID;
+	public String toString(){		
+
+		return player == Player.Rom? "R " + targetCityID : "C" +" "+targetCityID;
 	}
 
 }
