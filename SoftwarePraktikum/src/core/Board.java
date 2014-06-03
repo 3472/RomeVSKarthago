@@ -68,7 +68,6 @@ public class Board extends JPanel{
 		setLayout(null);
 		
 		
-		
 		setSize(jframe.getWidth(), jframe.getHeight());
 
 		repaint();
@@ -90,7 +89,7 @@ public class Board extends JPanel{
 
 		
 		try {
-			fileReader = new BufferedReader(new FileReader("res/movePattern1.move"));
+			fileReader = new BufferedReader(new FileReader("res/movePattern2.move"));
 			 line = fileReader.readLine();
 		
 		} catch (FileNotFoundException e) {
@@ -103,7 +102,7 @@ public class Board extends JPanel{
 		while(line != null){
 			
 			try{
-				Thread.sleep(1000);
+				Thread.sleep(300);
 			}catch(InterruptedException ex){
 				ex.printStackTrace();
 			}

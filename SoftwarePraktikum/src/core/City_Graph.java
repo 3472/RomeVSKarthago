@@ -288,7 +288,10 @@ public class City_Graph implements Iterable<City>{
 	        }else{
 	            
 	            VertexSet result = new VertexSet();
+	            
+	            // aufgerufene Stadt wird hinzugefgt
 	            result.addVertex(city);
+	            
 	            
 	            getFriendlyNeighbours(city, result);
 	            
@@ -300,10 +303,15 @@ public class City_Graph implements Iterable<City>{
 	private void getFriendlyNeighbours(City city, VertexSet result){
 		
 		VertexSet set = getNeighbourhood(city);
+		
+		
 		for(City c : set){
+			// ist eine Stadt noch nicht im Result Set und gehrt zum 
+			// gleichen Owner, wird sie hinzugefgt und mit getFriendlyNeighbours
+			// aufgerufen
             if(c.getOwner() == city.getOwner() && !result.containsID(c.getID())){
                 result.addVertex(c);
-                getFriendlyNeighbours(city, result);
+                getFriendlyNeighbours(c, result);
             }
         } 
 	}
