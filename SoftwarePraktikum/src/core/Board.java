@@ -103,7 +103,7 @@ public class Board extends JPanel{
 		while(line != null){
 			
 			try{
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 			}catch(InterruptedException ex){
 				ex.printStackTrace();
 			}

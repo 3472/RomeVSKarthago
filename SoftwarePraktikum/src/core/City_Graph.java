@@ -402,6 +402,56 @@ public class City_Graph implements Iterable<City>{
     	
     	nextGraph.changeCityOwner(move.getCityID(), PlayerToOwner(move.getPlayer()));
     	
+    	
+    	
+    	/*
+    	 * changes all enemmy's citys to neutral with are ausgehungert
+    	 */
+    	VertexSet citysToBeTested = nextGraph.getNeighbourhood(nextGraph.getCity(move.getCityID()));
+    	citysToBeTested.addVertex(nextGraph.getCity(move.getCityID()));
+    	
+    	for(City test : citysToBeTested){
+    		if(test.getOwner() == this.ReturnOtherPlayer(this.PlayerToOwner(move.getPlayer()))){
+    			
+	    		VertexSet connectedComponents = nextGraph.getConnectedComponents(test);
+	    		VertexSet neighbours = nextGraph.getVertexSetNeighbourhood(connectedComponents);
+	    		
+	    		Owner owner = test.getOwner();
+	    		
+	    		// TODO: check empty
+	    		boolean isDead = true;
+	    		for(City n : neighbours){
+	    			if(n.getOwner() == Owner.Neutral){
+	    				isDead = false;
+	    			}
+	    		}
+	    		
+	    		if(isDead){
+	    			for(City d : connectedComponents){
+	    				nextGraph.changeCityOwner(d.getID(), Owner.Neutral);
+	    			}
+	    		}
+    		}
+    	}
+    	
+    	
+    	/*
+    	 * Hungert 
+    	 */
+    	VertexSet connectedCitys = nextGraph.getConnectedComponents(nextGraph.getCity(move.getCityID()));
+    	VertexSet neighbourCitys = nextGraph.getVertexSetNeighbourhood(connectedCitys);
+    	
+    	boolean isDead = true;
+    	for(City neigh : neighbourCitys){
+    		// TODO: eventuell falsch
+    		if(neigh.getOwner() != this.ReturnOtherPlayer(this.PlayerToOwner(move.getPlayer()))){
+    			isDead = false;
+    		}
+    	}
+    	
+    	if(isDead){
+    		nextGraph.changeCityOwner(move.getCityID(), Owner.Neutral);
+    	}
 		return nextGraph;
 	}
     
