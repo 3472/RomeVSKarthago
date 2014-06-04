@@ -3,12 +3,12 @@ package core;
 import javax.swing.text.PlainDocument;
 
 /*
- * Die Klasse ist sehr ähnlich zu der Main-Loop die wir später brauchen
+ * Die Klasse ist sehr ï¿½hnlich zu der Main-Loop die wir spï¿½ter brauchen
  */
 
 
 //Johannes
-//Du kümmerst dich darum, die Konsolen aplikation zum laufen zu bringen, hab schon mal ein Grundgerüst vor getippt
+//Du kï¿½mmerst dich darum, die Konsolen aplikation zum laufen zu bringen, hab schon mal ein Grundgerï¿½st vor getippt
 public class ConsolGame implements GameLogic,Runnable{
 	
 	public static void main(String[]args){
@@ -46,7 +46,7 @@ public class ConsolGame implements GameLogic,Runnable{
 	//Johannes
 	@Override
 	public void run() {
-		Move move;
+		Move move = null;
 		City_Graph newGameState;
 		
 		while(!GameOver){
@@ -54,21 +54,21 @@ public class ConsolGame implements GameLogic,Runnable{
 			while(!moveMake){
 				/*
 				 * Spielzug aus Konsole einlesen und in einen Move umwandenln
-				 * am bessten eine Methode schreiben dafür
+				 * am bessten eine Methode schreiben dafï¿½r
 				 * 
-				 * Für die Methode:
+				 * Fï¿½r die Methode:
 				 * 
 				 * Schau dir mal die Bsp bei dem zettel an, so sollten die eingaben aussehen
 				 * bei falschen ausgaben soll move gleich null sein und Syntax error ausgeben werden
 				 * und erneut eine eingabe gefordert werden
 				 */
 			}
-			doLocig();
+			doLogic(move);
 			moveMake = false;
 			
 			/*
 			 * Graph des GameBoard aktl;
-			 * nächster Spieler ist am Zug
+			 * nï¿½chster Spieler ist am Zug
 			 */
 		}
 		
@@ -81,12 +81,30 @@ public class ConsolGame implements GameLogic,Runnable{
 		
 		//Also hier kannst/sollst du die History benutzen
 		//nutze gameStateTransition() von city_graph und
-		//prüfe ob der string von dem neuen Graph schon mal
+		//prï¿½fe ob der string von dem neuen Graph schon mal
 		//in der History auftaucht
-		//Falls move null ist, brauchst du keine logik zu prüfen weil es beim eingeben
+		//Falls move null ist, brauchst du keine logik zu prï¿½fen weil es beim eingeben
 		//einen syntax fehler gab.
 		
-		return null;
+		
+		if(move == null) {					
+			
+			return "Illegal"; 
+		}
+		else {
+			City_Graph newGraph = graph.gameStateTransition(move);			
+	
+			if(history.contains(newGraph)) {
+						
+				return "Illegal";
+				
+			}
+			else {
+			
+				return "Legal";
+			}
+			
+		}
 	}
 
 
@@ -98,7 +116,7 @@ public class ConsolGame implements GameLogic,Runnable{
 	 * 
 	 * Bei einem Legal Zug wird city_Graph durch den neuen Graph ersetzt
 	 */
-	private void doLocig() {
+	private void doLogic(Move move) {
 		// TODO Auto-generated method stub
 		
 		
@@ -107,8 +125,8 @@ public class ConsolGame implements GameLogic,Runnable{
 		 * Bei einem Legalen Zug:
 		 * 	- graph durch neuen erstetzen
 		 * 	- neuen Graph erzeugen
-		 * 	- den neuen graph in die History einfügen
-		 * 	- Skips werden zurück gesetzt vom aktl spieler
+		 * 	- den neuen graph in die History einfï¿½gen
+		 * 	- Skips werden zurï¿½ck gesetzt vom aktl spieler
 		 * 	- Passende Consolen-Ausgaben
 		 * Bei einem ilegalen Zug
 		 * 	-Graph bleibt bestehen
@@ -120,6 +138,35 @@ public class ConsolGame implements GameLogic,Runnable{
 		 * 
 		 */
 		
+		String status = logic(move, city_Graph, currentPlayer);
+		
+		if(status == "Legal") {
+			
+			if(move.getCityID() == 'X') {
+				currentPlayer.skip = 1;
+
+			}
+			else {
+			city_Graph = city_Graph.gameStateTransition(move);
+			history.add(city_Graph);
+			
+			pl1.skip = 0;
+			pl2.skip = 0;
+			
+			}	
+			
+		}	
+		
+		else if(status == "Illegal") {				
+			currentPlayer.skip = 1;	
+			
+		}		
+			
+		if(pl1.skip == 1 && pl2.skip == 1)
+				GameOver = true;
+				
+		System.out.println(city_Graph.convertGameStateToString());
+
 		if(currentPlayer == pl2){
 			currentPlayer = pl1;
 		}else{
