@@ -17,9 +17,6 @@ import javax.swing.JPanel;
 
 
 public class Board extends JPanel{
-	public static void main(String[] args){
-		new Board();
-	}
 	
 	static final long serialVersionUID = 1L;
 	
@@ -36,15 +33,10 @@ public class Board extends JPanel{
 
 	
 	
-	String mappath = "res/test_zettel2_1.mp";
-	
-	public Board(){
+	public Board(City_Graph city_graph){
 		
-		city_graph = new City_Graph();
-		if(!city_graph.loadMap(mappath)){
-			System.exit(1);
-		}
-		
+		this.city_graph = city_graph;
+			
 		
 		// set Variables
 		boardOffset = 200;
@@ -70,72 +62,10 @@ public class Board extends JPanel{
 		
 		setSize(jframe.getWidth(), jframe.getHeight());
 
-		repaint();
+		
 		jframe.add(this);
 		jframe.setVisible(true);
 		repaint();
-	
-		
-		
-		/*
-		 * Nur zum Test: Movefile wird gelesen
-		 * (Aufgabe 4)
-		 */
-		
-		System.out.println(city_graph.convertGameStateToString());
-		
-		BufferedReader fileReader = null;
-		String line = null;
-
-		
-		try {
-			fileReader = new BufferedReader(new FileReader("res/movePattern2.move"));
-			 line = fileReader.readLine();
-		
-		} catch (FileNotFoundException e) {
-			System.out.println("Failed to read File");
-		} catch(IOException e) {
-			System.out.println("Failed to read File");
-		}
-		
-		Move nextMove = null;
-		while(line != null){
-			
-			try{
-				Thread.sleep(300);
-			}catch(InterruptedException ex){
-				ex.printStackTrace();
-			}
-			
-			int id = Integer.parseInt(line.split(" ")[1]);
-			Player p = null;
-			String s = line.split(" ")[0];
-			if(s.equals("R")){
-				p = Player.Rom;
-			}else{
-				p = Player.Cathargo;
-			}
-			
-			System.out.println("Player " + s + " trys to Capture City " + id);
-			nextMove = new Move(p, id);
-			city_graph = city_graph.gameStateTransition(nextMove);
-			
-			
-			try{
-				line = fileReader.readLine();
-			}catch(IOException ex){
-				ex.printStackTrace();
-			}
-			
-			System.out.println(city_graph.convertGameStateToString());
-			
-			repaint();
-			
-		}
-		
-		/*
-		 * test ende
-		 */
 	
 	}
 	
@@ -212,5 +142,9 @@ public class Board extends JPanel{
 			return cathargoColor;
 		}
 		return neutralColor;
+	}
+	
+	public void setGraph(City_Graph graph){
+		city_graph = graph;
 	}
 }
