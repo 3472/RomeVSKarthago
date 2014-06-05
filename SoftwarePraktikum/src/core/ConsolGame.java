@@ -123,15 +123,15 @@ public class ConsolGame implements GameLogic,Runnable{
 		
 		
 		// wrong amount of Arguments
-		if(arguments.length != 3){
+		if(arguments.length != 2){
 			errorTryAgain("Invalide number of Arguments");
 		}else{
 			// First Tag is Wrong
-			if(!(arguments[1].equals("R") || arguments[1].equals("C"))){
+			if(!(arguments[0].equals("R") || arguments[0].equals("C"))){
 				errorTryAgain("First Argument has to be the playertag");
 			}else{
 				Player p = null;
-				if(arguments[1].equals("R")){
+				if(arguments[0].equals("R")){
 					p = Player.Rom;
 				}else{
 					p = Player.Cathargo;
@@ -143,17 +143,17 @@ public class ConsolGame implements GameLogic,Runnable{
 				}else{
 					
 					// (player forfeits)
-					if(arguments[2].equals("X")){
+					if(arguments[1].equals("X")){
 						isMoveAForfeit = true;
 						moveMake = true;
 					}else{
 						int id = -1;
 						try{
-							id = Integer.parseInt(arguments[2]);
+							id = Integer.parseInt(arguments[1]);
 							
 							// input seems right
 							// add move
-							move = new Move(arguments[1] + " " + arguments[2]);
+							move = new Move(arguments[0] + " " + arguments[1]);
 							if(move != null){
 								moveMake = true;
 							}
@@ -193,6 +193,7 @@ public class ConsolGame implements GameLogic,Runnable{
 		//in der History auftaucht
 		//Falls move null ist, brauchst du keine logik zu pr�fen weil es beim eingeben
 		//einen syntax fehler gab.
+		
 		
 		return null;
 	}
