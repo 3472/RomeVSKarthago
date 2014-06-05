@@ -27,6 +27,8 @@ public class ConsolGame implements GameLogic,Runnable{
 	private History history;
 	private PlayerAbs pl1,pl2,currentPlayer;
 	private BufferedReader consoleReader;
+	private Move move;
+	private City_Graph newGameState;
 	
 	
 	public ConsolGame(String path){
@@ -54,8 +56,7 @@ public class ConsolGame implements GameLogic,Runnable{
 	//Johannes
 	@Override
 	public void run() {
-		Move move;
-		City_Graph newGameState;
+
 		
 		GameOver = false;
 		while(!GameOver){
@@ -153,9 +154,14 @@ public class ConsolGame implements GameLogic,Runnable{
 							
 							// input seems right
 							// add move
-							move = new Move(arguments[0] + " " + arguments[1]);
-							if(move != null){
-								moveMake = true;
+							
+							if(city_Graph.getCity(id).getOwner() != Owner.Neutral){
+								errorTryAgain("City is Already Captured");
+							}else{
+								move = new Move(arguments[0] + " " + arguments[1]);
+								if(move != null){
+									moveMake = true;
+								}
 							}
 							
 						}catch(NumberFormatException ex){
@@ -185,17 +191,23 @@ public class ConsolGame implements GameLogic,Runnable{
 	//Gerald
 	@Override
 	public String logic(Move move, City_Graph graph,PlayerAbs currentPlayer) {
-		// TODO Auto-generated method stub
 		
-		//Also hier kannst/sollst du die History benutzen
-		//nutze gameStateTransition() von city_graph und
-		//pr�fe ob der string von dem neuen Graph schon mal
-		//in der History auftaucht
-		//Falls move null ist, brauchst du keine logik zu pr�fen weil es beim eingeben
-		//einen syntax fehler gab.
-		
-		
-		return null;
+		if(move == null) {	
+				return "Illegal";
+
+		}
+		else {
+				City_Graph newGraph = graph.gameStateTransition(move);	
+	
+			if(history.contains(newGraph)) {	
+				return "Illegal";	
+	
+			}
+			else {	
+				return "Legal";
+
+			}	
+		}
 	}
 
 	
@@ -230,6 +242,39 @@ public class ConsolGame implements GameLogic,Runnable{
 		 * 	- Passende Consolen-Ausgaben
 		 * 
 		 */
+		
+		
+		String status = logic(move, city_Graph, currentPlayer);
+
+		if(status == "Legal") {	
+
+			// changed by johannes
+			if(isMoveAForfeit) {
+				currentPlayer.skip = 1;
+	
+			}
+			else {
+				city_Graph = city_Graph.gameStateTransition(move);
+				history.add(city_Graph);
+		
+				pl1.skip = 0;
+				pl2.skip = 0;
+	
+			}	
+
+		}	
+
+		else if(status == "Illegal") {	
+			currentPlayer.skip = 1;	
+
+		}	
+
+		if(pl1.skip == 1 && pl2.skip == 1)
+			GameOver = true;
+
+		System.out.println(city_Graph.convertGameStateToString());
+
+		
 		
 		if(currentPlayer == pl2){
 			currentPlayer = pl1;
