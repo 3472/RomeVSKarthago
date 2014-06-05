@@ -87,23 +87,21 @@ public class ConsolGame implements GameLogic,Runnable{
 		//einen syntax fehler gab.
 		
 		
-		if(move == null) {					
-			
+		if(move == null) {		
 			return "Illegal"; 
+			
 		}
 		else {
 			City_Graph newGraph = graph.gameStateTransition(move);			
 	
-			if(history.contains(newGraph)) {
-						
-				return "Illegal";
+			if(history.contains(newGraph)) {						
+				return "Illegal";				
 				
 			}
-			else {
-			
+			else {			
 				return "Legal";
-			}
-			
+				
+			}		
 		}
 	}
 
@@ -140,8 +138,10 @@ public class ConsolGame implements GameLogic,Runnable{
 		
 		String status = logic(move, city_Graph, currentPlayer);
 		
-		if(status == "Legal") {
+		if(status == "Legal") {		
 			
+			// muss noch angepasst werden
+			//je nachdem wie das passen nach dem einlesen gespeichert wird
 			if(move.getCityID() == 'X') {
 				currentPlayer.skip = 1;
 
