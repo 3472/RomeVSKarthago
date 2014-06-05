@@ -458,7 +458,9 @@ public class City_Graph implements Iterable<City>{
     	}
     	
     	if(isDead){
-    		nextGraph.changeCityOwner(move.getCityID(), Owner.Neutral);
+    		for(City dead : connectedCitys){
+    			nextGraph.changeCityOwner(dead.getID(), Owner.Neutral);
+    		}
     	}
 		return nextGraph;
 	}

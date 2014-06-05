@@ -7,12 +7,12 @@ import java.io.InputStreamReader;
 import javax.swing.text.PlainDocument;
 
 /*
- * Die Klasse ist sehr �hnlich zu der Main-Loop die wir sp�ter brauchen
+ * Die Klasse ist sehr ���hnlich zu der Main-Loop die wir sp���ter brauchen
  */
 
 
 //Johannes
-//Du k�mmerst dich darum, die Konsolen aplikation zum laufen zu bringen, hab schon mal ein Grundger�st vor getippt
+//Du k���mmerst dich darum, die Konsolen aplikation zum laufen zu bringen, hab schon mal ein Grundger���st vor getippt
 public class ConsolGame implements GameLogic,Runnable{
 	
 	public static void main(String[] args){
@@ -153,7 +153,11 @@ public class ConsolGame implements GameLogic,Runnable{
 							
 							// input seems right
 							// add move
-							move = new Move(arguments[0] + " " + arguments[1]);
+							if(city_Graph.getCity(id).getOwner() != Owner.Neutral){
+								errorTryAgain("City Already Belongs to an Player");
+							}else{
+								move = new Move(arguments[0] + " " + arguments[1]);
+							}
 							if(move != null){
 								moveMake = true;
 							}
@@ -189,9 +193,9 @@ public class ConsolGame implements GameLogic,Runnable{
 		
 		//Also hier kannst/sollst du die History benutzen
 		//nutze gameStateTransition() von city_graph und
-		//pr�fe ob der string von dem neuen Graph schon mal
+		//pr���fe ob der string von dem neuen Graph schon mal
 		//in der History auftaucht
-		//Falls move null ist, brauchst du keine logik zu pr�fen weil es beim eingeben
+		//Falls move null ist, brauchst du keine logik zu pr���fen weil es beim eingeben
 		//einen syntax fehler gab.
 		
 		
@@ -218,8 +222,8 @@ public class ConsolGame implements GameLogic,Runnable{
 		 * Bei einem Legalen Zug:
 		 * 	- graph durch neuen erstetzen
 		 * 	- neuen Graph erzeugen
-		 * 	- den neuen graph in die History einf�gen
-		 * 	- Skips werden zur�ck gesetzt vom aktl spieler
+		 * 	- den neuen graph in die History einf���gen
+		 * 	- Skips werden zur���ck gesetzt vom aktl spieler
 		 * 	- Passende Consolen-Ausgaben
 		 * Bei einem ilegalen Zug
 		 * 	-Graph bleibt bestehen
