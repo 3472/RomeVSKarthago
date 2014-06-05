@@ -70,6 +70,19 @@ public class Board extends JPanel{
 	}
 	
 
+	
+	/**
+	 * replaces the old cityGraph with the new one
+	 * and redraws the scene
+	 * @param new_city_graph the new city Graph 
+	 */
+	public void setNewGraph(City_Graph new_city_graph){
+		this.city_graph = new_city_graph;
+		
+		repaint();
+	}
+	
+	
 	@Override
 	public void paint(Graphics g){
 		super.paint(g);

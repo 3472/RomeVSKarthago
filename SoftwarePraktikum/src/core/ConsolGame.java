@@ -1,17 +1,21 @@
 package core;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import javax.swing.text.PlainDocument;
 
 /*
- * Die Klasse ist sehr ähnlich zu der Main-Loop die wir später brauchen
+ * Die Klasse ist sehr ï¿½hnlich zu der Main-Loop die wir spï¿½ter brauchen
  */
 
 
 //Johannes
-//Du kümmerst dich darum, die Konsolen aplikation zum laufen zu bringen, hab schon mal ein Grundgerüst vor getippt
+//Du kï¿½mmerst dich darum, die Konsolen aplikation zum laufen zu bringen, hab schon mal ein Grundgerï¿½st vor getippt
 public class ConsolGame implements GameLogic,Runnable{
 	
-	public static void main(String[]args){
+	public static void main(String[] args){
 		new ConsolGame("res/test.mp");
 	}
 
@@ -19,8 +23,10 @@ public class ConsolGame implements GameLogic,Runnable{
 	private Board gameBoard;
 	private City_Graph city_Graph;
 	private boolean moveMake;
+	private boolean isMoveAForfeit;
 	private History history;
 	private PlayerAbs pl1,pl2,currentPlayer;
+	private BufferedReader consoleReader;
 	
 	
 	public ConsolGame(String path){
@@ -37,6 +43,8 @@ public class ConsolGame implements GameLogic,Runnable{
 		
 		currentPlayer = pl1;
 		
+		consoleReader = new BufferedReader(new InputStreamReader(System.in));
+		
 		Thread th = new Thread(this);
 		th.start();
 	}
@@ -49,31 +57,131 @@ public class ConsolGame implements GameLogic,Runnable{
 		Move move;
 		City_Graph newGameState;
 		
+		GameOver = false;
 		while(!GameOver){
 			
+			moveMake = false;
+		
+			/*
+			 * @author: johannes
+			 * unser Movekonstruktor kann nur eine zahl als Argument nehmen
+			 * was machen wir also wenn zb: "R X" eingegeben wird?
+			 * 
+			 * (braucht ja dann die gameLogic)
+			 * habe jetzt einen boolean "isMoveAForfeit" eingebaut,
+			 * der true ist falls z.B. "R X" engegeben wurde.
+			 * 
+			 * Der  CityGraph bleibt dann gleich
+			 */
+			isMoveAForfeit = false;
+			
 			while(!moveMake){
-				/*
-				 * Spielzug aus Konsole einlesen und in einen Move umwandenln
-				 * am bessten eine Methode schreiben dafür
-				 * 
-				 * Für die Methode:
-				 * 
-				 * Schau dir mal die Bsp bei dem zettel an, so sollten die eingaben aussehen
-				 * bei falschen ausgaben soll move gleich null sein und Syntax error ausgeben werden
-				 * und erneut eine eingabe gefordert werden
-				 */
+				
+				System.out.print("> ");
+				move = null;
+				move = this.getMoveFromInput();
+				if(move != null){
+					moveMake = true;
+				}
+				
+		
 			}
 			doLocig();
-			moveMake = false;
 			
+			
+	
 			/*
-			 * Graph des GameBoard aktl;
-			 * nächster Spieler ist am Zug
+			 * (nicht vergessen das city_graph = newCityGraph 
+			 * DAVOR aufgerufen werden sollte)
 			 */
+			gameBoard.setNewGraph(city_Graph);
+			
 		}
 		
 	}
+	
+	
 
+
+	/**
+	 * waits for an userinput and trys to turn it into an Move
+	 * if the input is wrong, the move will remain 
+	 * 
+	 * @return 
+	 */
+	private Move getMoveFromInput(){
+		Move move = null;
+		String input = "";
+		
+		try {
+			input = consoleReader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String arguments[] = input.split(" ");
+		
+		
+		// wrong amount of Arguments
+		if(arguments.length != 3){
+			errorTryAgain("Invalide number of Arguments");
+		}else{
+			// First Tag is Wrong
+			if(!(arguments[1].equals("R") || arguments[1].equals("C"))){
+				errorTryAgain("First Argument has to be the playertag");
+			}else{
+				Player p = null;
+				if(arguments[1].equals("R")){
+					p = Player.Rom;
+				}else{
+					p = Player.Cathargo;
+				}
+				
+				// Wrong Player entered
+				if(p != currentPlayer.name){
+					errorTryAgain("Wrong Player");
+				}else{
+					
+					// (player forfeits)
+					if(arguments[2].equals("X")){
+						isMoveAForfeit = true;
+						moveMake = true;
+					}else{
+						int id = -1;
+						try{
+							id = Integer.parseInt(arguments[2]);
+							
+							// input seems right
+							// add move
+							move = new Move(arguments[1] + " " + arguments[2]);
+							if(move != null){
+								moveMake = true;
+							}
+							
+						}catch(NumberFormatException ex){
+							errorTryAgain("Last Argument is not a number nor an 'X'");
+						}
+					}
+				}
+			}
+		}
+		
+		return move;
+	}
+	
+	
+	
+	private void errorTryAgain(String msg){
+		System.out.println(msg);
+		System.out.println("Try Again");
+	}
+
+	
+	
+	
+	
+	
+	
 	//Gerald
 	@Override
 	public String logic(Move move, City_Graph graph,PlayerAbs currentPlayer) {
@@ -81,15 +189,17 @@ public class ConsolGame implements GameLogic,Runnable{
 		
 		//Also hier kannst/sollst du die History benutzen
 		//nutze gameStateTransition() von city_graph und
-		//prüfe ob der string von dem neuen Graph schon mal
+		//prï¿½fe ob der string von dem neuen Graph schon mal
 		//in der History auftaucht
-		//Falls move null ist, brauchst du keine logik zu prüfen weil es beim eingeben
+		//Falls move null ist, brauchst du keine logik zu prï¿½fen weil es beim eingeben
 		//einen syntax fehler gab.
 		
 		return null;
 	}
 
-
+	
+	
+	
 	//Gerald
 	/*
 	 * Die Methode soll die Ausgaben von GameLogic() nutzen und Richtig auf die Ausgaben reagieren
@@ -107,8 +217,8 @@ public class ConsolGame implements GameLogic,Runnable{
 		 * Bei einem Legalen Zug:
 		 * 	- graph durch neuen erstetzen
 		 * 	- neuen Graph erzeugen
-		 * 	- den neuen graph in die History einfügen
-		 * 	- Skips werden zurück gesetzt vom aktl spieler
+		 * 	- den neuen graph in die History einfï¿½gen
+		 * 	- Skips werden zurï¿½ck gesetzt vom aktl spieler
 		 * 	- Passende Consolen-Ausgaben
 		 * Bei einem ilegalen Zug
 		 * 	-Graph bleibt bestehen
