@@ -1,0 +1,6 @@
+> R 1
+NRNR
+> C 0
+NRNR
+> R X
+NRNR

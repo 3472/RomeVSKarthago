@@ -1,0 +1,14 @@
+> R 2
+CNRR
+> C 1
+CCNN
+> R 2
+NNRN
+> C 1
+NCRN
+> R 3
+NCNN
+> C X
+NCNN
+> R X
+NCNN

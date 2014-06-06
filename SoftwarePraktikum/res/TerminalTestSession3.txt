@@ -1,0 +1,8 @@
+> R 2
+CNRR
+> C 1
+CCNN
+> C 0
+CCNN
+> C 1
+CCNN
