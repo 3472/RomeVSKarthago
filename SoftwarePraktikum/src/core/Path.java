@@ -40,11 +40,14 @@ public class Path {
 	 * 		containsID() should be called first
 	 * 		if the path does not contain the cityID, nothing happens
 	 */
-	public void updateCity(City c){
+	public Path updateCity(City c){
+		City first = first_city;
+		City second = second_city;
 		if(first_city.getID() == c.getID()){
-			first_city = c;
+			first = c;
 		}else if(second_city.getID() == c.getID()){
-			second_city = c;
+			second = c;
 		}
+		return new Path(first, second);
 	}
 }

@@ -3,8 +3,8 @@ package core;
 import java.util.ArrayList;
 
 /*
- * Die Klasse dient dazu, die unterschiedlichen Spielzustände zu speichern die im Laufe des Spiels auftreten
- * und um so zu schauen ob schon ob es sich bei dem aktuellen Zustand um einen neuen oder einen alten(was ein fehler wär
+ * Die Klasse dient dazu, die unterschiedlichen Spielzustï¿½nde zu speichern die im Laufe des Spiels auftreten
+ * und um so zu schauen ob schon ob es sich bei dem aktuellen Zustand um einen neuen oder einen alten(was ein fehler wï¿½r
  * laut der Regeln)
  */
 public class History {
@@ -23,7 +23,7 @@ public class History {
 		String gameState = graph.convertGameStateToString();
 
 		for (String str : history) {
-			if (str == gameState)
+			if (str.equals(gameState))
 				return true;
 		}
 
@@ -31,7 +31,7 @@ public class History {
 	}
 
 	/*
-	 * Fügt einen Zustand in die History ein, wobei überprüft wird ob der
+	 * Fï¿½gt einen Zustand in die History ein, wobei ï¿½berprï¿½ft wird ob der
 	 * Zustand schon existiert
 	 */
 	/**

@@ -434,6 +434,8 @@ public class City_Graph implements Iterable<City>{
 	    			}
 	    		}
 	    		
+	    		
+	    		
 	    		if(isDead){
 	    			for(City d : connectedComponents){
 	    				nextGraph.changeCityOwner(d.getID(), Owner.Neutral);
@@ -472,12 +474,18 @@ public class City_Graph implements Iterable<City>{
      */
     public void changeCityOwner(int cityID, Owner newOwner){
     	City c = cityList.changeCityOwner(cityID, newOwner);
+    	ArrayList<Path> newPaths = new ArrayList<>();
     	Iterator<Path> it = pathList.iterator();
     	while(it.hasNext()){
     		Path p = it.next();
     		if(p.containsID(cityID)){
-    			p.updateCity(c);
+    			newPaths.add(p.updateCity(c));
+    			it.remove();
     		}
+    	}
+    	
+    	for(int i = 0; i < newPaths.size(); i++){
+    		pathList.add(newPaths.get(i));
     	}
     }
     
@@ -491,8 +499,11 @@ public class City_Graph implements Iterable<City>{
     public City_Graph copy(){
     	City_Graph nextCity = new City_Graph();
     	
-
-    	nextCity.setContainers(cityList.copy(), pathList);
+    	ArrayList<Path> pathListCopy  = new ArrayList<>();
+    	for(int i = 0; i < pathList.size(); i++){
+    		pathListCopy.add(pathList.get(i));
+    	}
+    	nextCity.setContainers(cityList.copy(), pathListCopy);
     	return nextCity;
     }
     
