@@ -16,7 +16,7 @@ import javax.swing.text.PlainDocument;
 public class ConsolGame implements GameLogic,Runnable{
 	
 	public static void main(String[] args){
-		new ConsolGame("res/test.mp");
+		new ConsolGame("res/test_zettel2_1.mp");
 	}
 
 	private boolean GameOver;

@@ -451,14 +451,16 @@ public class City_Graph implements Iterable<City>{
     	
     	boolean isDead = true;
     	for(City neigh : neighbourCitys){
-    		// TODO: eventuell falsch
+    		
     		if(neigh.getOwner() != this.ReturnOtherPlayer(this.PlayerToOwner(move.getPlayer()))){
     			isDead = false;
     		}
     	}
     	
     	if(isDead){
-    		nextGraph.changeCityOwner(move.getCityID(), Owner.Neutral);
+    		for(City dead : connectedCitys){
+    			nextGraph.changeCityOwner(dead.getID(), Owner.Neutral);
+    		}
     	}
 		return nextGraph;
 	}
