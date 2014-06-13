@@ -1,21 +1,12 @@
 package test;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
 import core.City_Graph;
 import core.Move;
 import static org.junit.Assert.*;
-
 import org.junit.Before;
-import org.junit.Test;
-
-import core.City;
-import core.Owner;
-import core.Player;
-import core.VertexSet;
 
 // Hiermit können wir jederzeit Spielszenarien erzeugen und testen. Da ich uns als fähig genug einschätze, habe ich die Fehlerbehebung weggelassen.
 
@@ -42,8 +33,7 @@ public class TerminalTestSession {
 			while(line!=null){
 				String expectedOutput;
 				String moveString = line.substring(2);
-				Move move = null;
-				move.createMoveFromString(moveString);
+				Move move = new Move(moveString);
 				
 				try {
 					fileReader = new BufferedReader(new FileReader(Sessionpath));
