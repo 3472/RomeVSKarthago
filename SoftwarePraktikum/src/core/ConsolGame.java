@@ -1,6 +1,7 @@
 package core;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -16,22 +17,24 @@ import javax.swing.text.PlainDocument;
 public class ConsolGame implements GameLogic,Runnable{
 	
 	public static void main(String[] args){
-		new ConsolGame("res/test.mp");
+		
+		// hier auswaehlen der spielertypen AI oder Human und evtl noch die map
+				
+		initializeGame();
 	}
 
 	private boolean GameOver;
 	private Board gameBoard;
 	private City_Graph city_Graph;
-	private boolean moveMake;
-	private boolean isMoveAForfeit;
+
+
 	private History history;
 	private PlayerAbs pl1,pl2,currentPlayer;
-	private BufferedReader consoleReader;
 	private Move move;
-	private City_Graph newGameState;
+	private boolean isMoveAForfeit;
+	private boolean moveMake;
 	
-	
-	public ConsolGame(String path){
+	public ConsolGame(String path, PlayerAbs player1, PlayerAbs player2){
 		city_Graph = new City_Graph();
 		city_Graph.loadMap(path);
 		
@@ -40,18 +43,57 @@ public class ConsolGame implements GameLogic,Runnable{
 		
 		gameBoard = new Board(city_Graph);
 		
-		pl1 = new PlayerAbs(Player.Rom);
-		pl2 = new PlayerAbs(Player.Cathargo);
+		pl1 = player1;
+		pl2 = player2;
+		currentPlayer = player1;
 		
-		currentPlayer = pl1;
-		
-		consoleReader = new BufferedReader(new InputStreamReader(System.in));
 		
 		Thread th = new Thread(this);
 		th.start();
 	}
 	
+	static public void initializeGame() {
+		
+		PlayerAbs pl1 = null;
+		PlayerAbs pl2 = null;
 	
+		String input = "";
+		BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
+	
+		System.out.println("Choose Human or AI player: (Wasp -> 1), (Sloth -> 2), (Human -> 3)");
+		System.out.println("Player1: ");
+		
+		try {
+			while(!input.equals("1") && !input.equals("2") && !input.equals("3")) 
+				input = consoleReader.readLine();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		pl1 = (PlayerAbs) (input.equals("1") ? new Wasp(Player.Rom) : 
+			              (input.equals("2") ? new Sloth(Player.Rom) : new HumanPlayerLocal(Player.Rom)));
+		
+		input = "";
+		System.out.println("Player2: ");
+		
+		try {
+			while(!input.equals("1") && !input.equals("2") && !input.equals("3"))		
+				input = consoleReader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+		pl2 = (PlayerAbs) (input.equals("1") ? new Wasp(Player.Cathargo) : 
+	        (input.equals("2") ? new Sloth(Player.Cathargo) : new HumanPlayerLocal(Player.Cathargo)));
+		
+		System.out.println("Player1: " + pl1.getClass().getName());
+		System.out.println("Player2: " + pl2.getClass().getName());	
+		
+		
+		new ConsolGame("res/test.mp", pl1, pl2);
+	
+}
 	
 	//Johannes
 	@Override
@@ -80,14 +122,14 @@ public class ConsolGame implements GameLogic,Runnable{
 				
 				System.out.print("> ");
 				move = null;
-				move = this.getMoveFromInput();
+				move = currentPlayer.makeMove(city_Graph);
 				if(move != null){
 					moveMake = true;
 				}
 				
 		
 			}
-			doLocig();
+			doLogic();
 			
 			
 	
@@ -102,118 +144,25 @@ public class ConsolGame implements GameLogic,Runnable{
 	}
 	
 	
-
-
-	/**
-	 * waits for an userinput and trys to turn it into an Move
-	 * if the input is wrong, the move will remain 
-	 * 
-	 * @return 
-	 */
-	private Move getMoveFromInput(){
-		Move move = null;
-		String input = "";
-		
-		try {
-			input = consoleReader.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		String arguments[] = input.split(" ");
-		
-		
-		// wrong amount of Arguments
-		if(arguments.length != 2){
-			errorTryAgain("Invalide number of Arguments");
-		}else{
-			// First Tag is Wrong
-			if(!(arguments[0].equals("R") || arguments[0].equals("C"))){
-				errorTryAgain("First Argument has to be the playertag");
-			}else{
-				Player p = null;
-				if(arguments[0].equals("R")){
-					p = Player.Rom;
-				}else{
-					p = Player.Cathargo;
-				}
-				
-				// Wrong Player entered
-				if(p != currentPlayer.name){
-					errorTryAgain("Wrong Player");
-				}else{
-					
-					// (player forfeits)
-					if(arguments[1].equals("X")){
-						isMoveAForfeit = true;
-						moveMake = true;
-					}else{
-						int id = -1;
-						try{
-							id = Integer.parseInt(arguments[1]);
-							
-							// input seems right
-							// add move
-							
-							if(city_Graph.getCity(id).getOwner() != Owner.Neutral){
-								errorTryAgain("City is Already Captured");
-							}else{
-								move = new Move(arguments[0] + " " + arguments[1]);
-								if(move != null){
-									moveMake = true;
-								}
-							}
-							
-						}catch(NumberFormatException ex){
-							errorTryAgain("Last Argument is not a number nor an 'X'");
-						}
-					}
-				}
-			}
-		}
-		
-		return move;
-	}
-	
-	
-	
-	private void errorTryAgain(String msg){
-		System.out.println(msg);
-		System.out.println("Try Again");
-	}
-
-	
-	
-	
-	
-	
-	
 	//Gerald
 	@Override
 	public String logic(Move move, City_Graph graph,PlayerAbs currentPlayer) {
 		
-		
-		
 		if(move == null) {	
 				return "Illegal";
-
 		}
 		else {
 				City_Graph newGraph = graph.gameStateTransition(move);	
 	
-			if(history.contains(newGraph)){	
-				return "Illegal";	
-	
+			if(history.contains(newGraph) && !currentPlayer.forfeits){	
+				return "Illegal";		
 			}
 			else {	
 				return "Legal";
-
 			}	
 		}
 	}
 
-	
-	
 	
 	//Gerald
 	/*
@@ -223,7 +172,7 @@ public class ConsolGame implements GameLogic,Runnable{
 	 * 
 	 * Bei einem Legal Zug wird city_Graph durch den neuen Graph ersetzt
 	 */
-	private void doLocig() {
+	private void doLogic() {
 		// TODO Auto-generated method stub
 		
 		
@@ -251,9 +200,9 @@ public class ConsolGame implements GameLogic,Runnable{
 		if(status.equals("Legal")) {	
 
 			// changed by johannes
-			if(isMoveAForfeit) {
+			if(currentPlayer.forfeits) {
 				currentPlayer.skip = 1;
-				
+				currentPlayer.forfeits = false;
 			}
 			else {
 				city_Graph = city_Graph.gameStateTransition(move);

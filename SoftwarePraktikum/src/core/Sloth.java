@@ -2,14 +2,14 @@ package core;
 
 import java.util.Iterator;
 
-public class Sloth extends AIPlayer {
+public class Sloth extends AIPlayerLocal {
 
 	public Sloth(Player name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
 	
-public Move makeAIMove(City_Graph cityGraph) {
+public Move makeMove(City_Graph cityGraph) {
 		
 		Iterator<City> it = cityGraph.iterator();
 		
