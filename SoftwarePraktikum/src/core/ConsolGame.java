@@ -16,13 +16,6 @@ import javax.swing.text.PlainDocument;
 //Du k���mmerst dich darum, die Konsolen aplikation zum laufen zu bringen, hab schon mal ein Grundger���st vor getippt
 public class ConsolGame implements GameLogic,Runnable{
 	
-	public static void main(String[] args){
-		
-		// hier auswaehlen der spielertypen AI oder Human und evtl noch die map
-				
-		initializeGame();
-	}
-
 	private boolean GameOver;
 	private Board gameBoard;
 	private City_Graph city_Graph;
@@ -52,48 +45,6 @@ public class ConsolGame implements GameLogic,Runnable{
 		th.start();
 	}
 	
-	static public void initializeGame() {
-		
-		PlayerAbs pl1 = null;
-		PlayerAbs pl2 = null;
-	
-		String input = "";
-		BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
-	
-		System.out.println("Choose Human or AI player: (Wasp -> 1), (Sloth -> 2), (Human -> 3)");
-		System.out.println("Player1: ");
-		
-		try {
-			while(!input.equals("1") && !input.equals("2") && !input.equals("3")) 
-				input = consoleReader.readLine();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		pl1 = (PlayerAbs) (input.equals("1") ? new Wasp(Player.Rom) : 
-			              (input.equals("2") ? new Sloth(Player.Rom) : new HumanPlayerLocal(Player.Rom)));
-		
-		input = "";
-		System.out.println("Player2: ");
-		
-		try {
-			while(!input.equals("1") && !input.equals("2") && !input.equals("3"))		
-				input = consoleReader.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-			
-		pl2 = (PlayerAbs) (input.equals("1") ? new Wasp(Player.Cathargo) : 
-	        (input.equals("2") ? new Sloth(Player.Cathargo) : new HumanPlayerLocal(Player.Cathargo)));
-		
-		System.out.println("Player1: " + pl1.getClass().getName());
-		System.out.println("Player2: " + pl2.getClass().getName());	
-		
-		
-		new ConsolGame("res/test.mp", pl1, pl2);
-	
-}
 	
 	//Johannes
 	@Override

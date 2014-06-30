@@ -1,13 +1,19 @@
 package core;
 
+import java.io.PrintWriter;
 import java.util.Iterator;
 
-public class Sloth extends AIPlayerLocal {
+public class Sloth extends PlayerAbs {
 
 	public Sloth(Player name) {
 		super(name);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Sloth(Player name, PrintWriter toNetwork){
+		super(name, toNetwork);
+	}
+	
 	
 public Move makeMove(City_Graph cityGraph) {
 		
@@ -20,9 +26,9 @@ public Move makeMove(City_Graph cityGraph) {
     			break;
     		}
     
-    		}	
+    	}	
     	Move move = new Move(this.name ,targetCity.getID());
-    	return move;
+    	return sendMove(move);
 	}
 
 }

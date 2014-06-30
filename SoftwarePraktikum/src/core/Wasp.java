@@ -1,14 +1,22 @@
 package core;
 
-public class Wasp extends AIPlayerLocal {
+import java.io.PrintWriter;
+
+public class Wasp extends PlayerAbs {
 
 	public Wasp(Player name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 	
+	public Wasp(Player name, PrintWriter toNetwork) {
+		super(name, toNetwork);
+	}
+	
+	
+	
 	public Move makeMove(City_Graph cityGraph) {
-		return new Move(this.name, 0);
+		Move move = new Move(this.name, 0);
+		return sendMove(move);
 	}
 
 }

@@ -1,6 +1,6 @@
 package core;
 
-public class Observer extends HumanPlayerNetwork{
+public class Observer extends PlayerAbs{
 
 	public Observer(Player name) {
 		super(name);

@@ -3,20 +3,26 @@ package core;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
-public class HumanPlayerLocal extends PlayerAbs {
+public class HumanPlayerConsole extends PlayerAbs {
 	
 	private BufferedReader consoleReader;
-	private boolean isMoveAForfeit;
-	private boolean moveMake;
 
 
-	public HumanPlayerLocal(Player name) {
+
+	public HumanPlayerConsole(Player name) {
 		super(name);
 		consoleReader = new BufferedReader(new InputStreamReader(System.in));
-		// TODO Auto-generated constructor stub
+		
 	}
 
+	public HumanPlayerConsole(Player name, PrintWriter fromNetwork) {
+		super(name, fromNetwork);
+		consoleReader = new BufferedReader(new InputStreamReader(System.in));
+	
+	}
+	
 	
 	private void errorTryAgain(String msg){
 		System.out.println(msg);
@@ -91,6 +97,6 @@ public class HumanPlayerLocal extends PlayerAbs {
 			}
 		}
 		
-		return move;
+		return sendMove(move);
 	}
 }
