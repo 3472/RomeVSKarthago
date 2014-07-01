@@ -11,11 +11,11 @@ public class Sloth extends PlayerAbs {
 	}
 	
 	public Sloth(Player name, PrintWriter toNetwork){
-		super(name, toNetwork);
+		super(name);
 	}
 	
 	
-public Move makeMove(City_Graph cityGraph) {
+public Move makeMove(City_Graph cityGraph, Move prevMove) {
 		
 		Iterator<City> it = cityGraph.iterator();
 		
@@ -28,7 +28,7 @@ public Move makeMove(City_Graph cityGraph) {
     
     	}	
     	Move move = new Move(this.name ,targetCity.getID());
-    	return sendMove(move);
+    	return move;
 	}
 
 }

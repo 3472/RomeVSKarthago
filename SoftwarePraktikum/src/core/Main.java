@@ -34,50 +34,19 @@ public class Main {
 	}
 
 	private void initServerGame(String[] args) {
-		Server server = new Server();
-		PlayerAbs p2 = getPlayerFromString(args[1], Player.Cathargo, server.getToClientPrinter());
-		if(p2 == null){
-			System.out.println("Wrong first player");
-			System.exit(1);
-		}
 		
-		PlayerAbs p1 = new NetworkPlayer(Player.Rom, server.getFromClientReader());
-		
-		new ConsolGame(args[2], p1 ,p2);
 	}
 
 
 		
 	private void initClientGame(String[] args) {
-		Client client = new Client();
-		PlayerAbs p1 = getPlayerFromString(args[1], Player.Rom, client.getToServerPrinter());
-		if(p1 == null){
-			System.out.println("Wrong first player");
-		}
-		
-		PlayerAbs p2 = new NetworkPlayer(Player.Cathargo, client.getFromServerReader());
-		
-		new ConsolGame(args[2], p1 ,p2);
+
+
 	}
 
 
 	private void initLocalGame(String[] args) {
-		PlayerAbs p1 = getPlayerFromString(args[1], Player.Rom, null);
-		if(p1 == null){
-			System.out.println("Wrong first player");
-			System.exit(1);
-		}
-		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo, null);
-		if(p2 == null){
-			System.out.println("Wrong second player");
-			System.exit(1);
-		}
-		
-		System.out.println("Player1: " + p1.getClass().getName());
-		System.out.println("Player2: " + p2.getClass().getName());	
-		
-		
-		new ConsolGame(args[3], p1, p2);
+
 		
 	}
 
@@ -93,28 +62,18 @@ public class Main {
 	 */
 	private PlayerAbs getPlayerFromString(String name, Player p, PrintWriter ps){
 		if(name.toUpperCase().equals("-WASP")){
+		
+			return new Wasp(p);
 			
-			if(ps == null){
-				return new Wasp(p);
-			}else{
-				return new Wasp(p, ps);
-			}
 			
 		}else if(name.toUpperCase().equals("-SLOTH")){
 			
-			if(ps == null){
-				return new Sloth(p);
-			}else{
-				return new Sloth(p, ps);
-			}
+			return new Sloth(p);
+		
 			
 		}else if(name.toUpperCase().equals("-CONSOLEPLAYER")){
 			
-			if(ps == null){
-				return new HumanPlayerConsole(p);
-			}else{
-				return new HumanPlayerConsole(p, ps);
-			}
+			return new HumanPlayerConsole(p);
 			
 		}
 		

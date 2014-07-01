@@ -3,16 +3,29 @@ package network;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
-public class Client {
+import core.Move;
+
+public class Client extends NetworkIO implements ClientIOHandler{
 	private BufferedReader fromServer = null;
 	private PrintWriter toServer = null;
 	
-
-	public BufferedReader getFromServerReader(){
-		return fromServer;
+	
+	@Override
+	public String readMove() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void sendMove(Move move) {
+		// TODO Auto-generated method stub
+		
 	}
 	
-	public PrintWriter getToServerPrinter(){
-		return toServer;
+	@Override
+	public void initClient(String map) {
+		// TODO Auto-generated method stub
+		
 	}
+	
+
 }

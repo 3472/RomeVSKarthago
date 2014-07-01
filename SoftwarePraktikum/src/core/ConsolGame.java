@@ -24,7 +24,7 @@ public class ConsolGame implements GameLogic,Runnable{
 	private History history;
 	private PlayerAbs pl1,pl2,currentPlayer;
 	private Move move;
-	private boolean isMoveAForfeit;
+	private Move prevMove;
 	private boolean moveMake;
 	
 	public ConsolGame(String path, PlayerAbs player1, PlayerAbs player2){
@@ -39,7 +39,7 @@ public class ConsolGame implements GameLogic,Runnable{
 		pl1 = player1;
 		pl2 = player2;
 		currentPlayer = player1;
-		
+		prevMove = null;
 		
 		Thread th = new Thread(this);
 		th.start();
@@ -56,24 +56,11 @@ public class ConsolGame implements GameLogic,Runnable{
 			
 			moveMake = false;
 		
-			/*
-			 * @author: johannes
-			 * unser Movekonstruktor kann nur eine zahl als Argument nehmen
-			 * was machen wir also wenn zb: "R X" eingegeben wird?
-			 * 
-			 * (braucht ja dann die gameLogic)
-			 * habe jetzt einen boolean "isMoveAForfeit" eingebaut,
-			 * der true ist falls z.B. "R X" engegeben wurde.
-			 * 
-			 * Der  CityGraph bleibt dann gleich
-			 */
-			isMoveAForfeit = false;
-			
 			while(!moveMake){
 				
 				System.out.print("> ");
 				move = null;
-				move = currentPlayer.makeMove(city_Graph);
+				move = currentPlayer.makeMove(city_Graph, prevMove);
 				if(move != null){
 					moveMake = true;
 				}
@@ -157,6 +144,7 @@ public class ConsolGame implements GameLogic,Runnable{
 			}
 			else {
 				city_Graph = city_Graph.gameStateTransition(move);
+				prevMove = move;
 				history.add(city_Graph);
 		
 				pl1.skip = 0;

@@ -16,12 +16,6 @@ public class HumanPlayerConsole extends PlayerAbs {
 		consoleReader = new BufferedReader(new InputStreamReader(System.in));
 		
 	}
-
-	public HumanPlayerConsole(Player name, PrintWriter fromNetwork) {
-		super(name, fromNetwork);
-		consoleReader = new BufferedReader(new InputStreamReader(System.in));
-	
-	}
 	
 	
 	private void errorTryAgain(String msg){
@@ -35,7 +29,7 @@ public class HumanPlayerConsole extends PlayerAbs {
 	 * 
 	 * @return 
 	 */
-	public Move makeMove(City_Graph city_graph){
+	public Move makeMove(City_Graph city_graph, Move prevMove){
 		Move move = null;
 		String input = "";
 		
@@ -97,6 +91,6 @@ public class HumanPlayerConsole extends PlayerAbs {
 			}
 		}
 		
-		return sendMove(move);
+		return move;
 	}
 }

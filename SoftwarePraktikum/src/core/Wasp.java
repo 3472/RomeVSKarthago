@@ -8,15 +8,11 @@ public class Wasp extends PlayerAbs {
 		super(name);
 	}
 	
-	public Wasp(Player name, PrintWriter toNetwork) {
-		super(name, toNetwork);
-	}
 	
 	
-	
-	public Move makeMove(City_Graph cityGraph) {
+	public Move makeMove(City_Graph cityGraph, Move prevMove) {
 		Move move = new Move(this.name, 0);
-		return sendMove(move);
+		return move;
 	}
 
 }
