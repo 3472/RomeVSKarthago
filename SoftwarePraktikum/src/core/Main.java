@@ -4,6 +4,7 @@ package core;
 import java.io.PrintWriter;
 
 import network.Client;
+import network.NetworkIOHandler;
 import network.Server;
 
 public class Main {
@@ -14,7 +15,7 @@ public class Main {
 	
 	
 	public Main(String[] args){
-		if(args.length < 3){
+		if(args.length < 2){
 			System.out.println("ERROR: Invalid number of args");
 			System.exit(1);
 		}
@@ -34,20 +35,44 @@ public class Main {
 	}
 
 	private void initServerGame(String[] args) {
+		PlayerAbs p2 = getPlayerFromString(args[1], Player.Cathargo);
 		
+		Server bla = new Server();
+		bla.initServer();
+		
+		PlayerAbs p1 = new NetworkPlayer(Player.Rom, bla);
 	}
 
 
 		
 	private void initClientGame(String[] args) {
+		PlayerAbs p1 = getPlayerFromString(args[1], Player.Rom);
+	
+		Client client = new Client();
+		client.initClient(args[2]);
 
-
+		PlayerAbs p2 = new NetworkPlayer(Player.Cathargo, client);
 	}
 
 
 	private void initLocalGame(String[] args) {
 
+		PlayerAbs p1 = getPlayerFromString(args[1], Player.Rom);
+		if(p1 == null){
+			System.out.println("Wrong first player");
+			System.exit(1);
+		}
+		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo);
+		if(p2 == null){
+			System.out.println("Wrong second player");
+			System.exit(1);
+		}
 		
+		System.out.println("Player1: " + p1.getClass().getName());
+		System.out.println("Player2: " + p2.getClass().getName());	
+		
+		
+		new ConsolGame(args[3], p1, p2);
 	}
 
 
@@ -60,7 +85,7 @@ public class Main {
 	 * 			of his moves directly to the printwriter
 	 * @return returns a player
 	 */
-	private PlayerAbs getPlayerFromString(String name, Player p, PrintWriter ps){
+	private PlayerAbs getPlayerFromString(String name, Player p){
 		if(name.toUpperCase().equals("-WASP")){
 		
 			return new Wasp(p);
