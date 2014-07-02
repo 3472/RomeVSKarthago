@@ -15,7 +15,7 @@ public class Main {
 	
 	
 	public Main(String[] args){
-		if(args.length < 2){
+		if(args.length < 3){
 			System.out.println("ERROR: Invalid number of args");
 			System.exit(1);
 		}
@@ -34,27 +34,48 @@ public class Main {
 
 	}
 
+	/*
+	 * Input for Server: 1. -server 2. port 3. (local) player
+	 */
 	private void initServerGame(String[] args) {
-		PlayerAbs p2 = getPlayerFromString(args[1], Player.Cathargo);
+		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo);
 		
+		int port = Integer.parseInt(args[1]);
 		Server bla = new Server();
-		bla.initServer();
+		bla.initServer(port);
 		
 		PlayerAbs p1 = new NetworkPlayer(Player.Rom, bla);
 	}
 
 
-		
+
+	/*
+	 * Input for Client: 1. -client 2. port 3. (local)player 4. mapfile
+	 */
 	private void initClientGame(String[] args) {
-		PlayerAbs p1 = getPlayerFromString(args[1], Player.Rom);
+		PlayerAbs p1 = getPlayerFromString(args[2], Player.Rom);
 	
+		
+		City_Graph cityGraph = new City_Graph();
+		if(!cityGraph.loadMapByPath(args[3])){
+			System.out.println(
+					"ERROR while loading map. closing Programm");
+			System.exit(1);
+		}
+	
+		
+		int port = Integer.parseInt(args[1]);
 		Client client = new Client();
-		client.initClient(args[2]);
+		client.initClient(args[2], port);
 
 		PlayerAbs p2 = new NetworkPlayer(Player.Cathargo, client);
 	}
 
 
+	
+	/*
+	 * Input for localgame: 1. -local 2. player1 3. player2 4. mappath
+	 */
 	private void initLocalGame(String[] args) {
 
 		PlayerAbs p1 = getPlayerFromString(args[1], Player.Rom);
@@ -72,7 +93,14 @@ public class Main {
 		System.out.println("Player2: " + p2.getClass().getName());	
 		
 		
-		new ConsolGame(args[3], p1, p2);
+		City_Graph cityGraph = new City_Graph();
+		if(!cityGraph.loadMapByPath(args[3])){
+			System.out.println(
+					"ERROR while loading map. closing Programm");
+			System.exit(1);
+		}
+		
+		new ConsolGame(cityGraph, p1, p2);
 	}
 
 
@@ -80,9 +108,7 @@ public class Main {
 	 * 
 	 * @param name names the type of player
 	 * @param p tells witch fraction the player plays
-	 * @param ps if null, the function will return an local player
-	 * 			if a PrintWriter is given, the player will send each
-	 * 			of his moves directly to the printwriter
+	 *
 	 * @return returns a player
 	 */
 	private PlayerAbs getPlayerFromString(String name, Player p){

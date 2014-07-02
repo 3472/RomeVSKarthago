@@ -8,7 +8,7 @@ import core.Move;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
-// Hiermit können wir jederzeit Spielszenarien erzeugen und testen. Da ich uns als fähig genug einschätze, habe ich die Fehlerbehebung weggelassen.
+// Hiermit kï¿½nnen wir jederzeit Spielszenarien erzeugen und testen. Da ich uns als fï¿½hig genug einschï¿½tze, habe ich die Fehlerbehebung weggelassen.
 
 public class TerminalTestSession {
 
@@ -16,7 +16,7 @@ public class TerminalTestSession {
 		
 		@Before
 		public void init(){
-			city_graph.loadMap("res/test.mp");
+			city_graph.loadMapByPath("res/test.mp");
 		}
 		
 		public void loadTerminalSession(String Sessionpath){

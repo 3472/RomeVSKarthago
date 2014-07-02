@@ -2,5 +2,5 @@ package network;
 
 public interface ServerIOHandler extends NetworkIOHandler {
 
-	public String initServer();
+	public String initServer(int port);
 }

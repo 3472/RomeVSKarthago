@@ -21,7 +21,7 @@ public class Server extends NetworkIO implements ServerIOHandler {
 	}
 
 	@Override
-	public String initServer() {
+	public String initServer(int port) {
 		// TODO Auto-generated method stub
 		return null;
 	}

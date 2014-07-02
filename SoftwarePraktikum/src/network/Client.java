@@ -22,7 +22,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 	}
 	
 	@Override
-	public void initClient(String map) {
+	public void initClient(String map, int port) {
 		// TODO Auto-generated method stub
 		
 	}

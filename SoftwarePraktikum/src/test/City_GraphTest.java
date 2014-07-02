@@ -19,7 +19,7 @@ public class City_GraphTest {
 	
 	@Before
 	public void init(){
-		city_graph.loadMap("res/test_zettel2_1.mp");
+		city_graph.loadMapByPath("res/test_zettel2_1.mp");
 	}
 	
 	
@@ -43,7 +43,7 @@ public class City_GraphTest {
 		
 		City_Graph city_graph2 = new City_Graph();
 
-		city_graph2.loadMap("res/singleCity.mp");
+		city_graph2.loadMapByPath("res/singleCity.mp");
 		
 		City testCity = city_graph2.getCity(0);
 		VertexSet emptySet = new VertexSet();
@@ -101,7 +101,7 @@ public class City_GraphTest {
 		
 		City_Graph city_graph2 = new City_Graph();
 
-		city_graph2.loadMap("res/singleCity.mp");
+		city_graph2.loadMapByPath("res/singleCity.mp");
 		
 		City testCity = city_graph2.getCity(0);
 		VertexSet emptySet = new VertexSet();
@@ -154,7 +154,7 @@ public class City_GraphTest {
 		
 		City_Graph city_graph2 = new City_Graph();
 
-		city_graph2.loadMap("res/test.mp");
+		city_graph2.loadMapByPath("res/test.mp");
 		
 		assertEquals(city_graph2.convertGameStateToString(),"CNNR");
 	}
@@ -164,7 +164,7 @@ public class City_GraphTest {
 		
 		City_Graph city_graph2 = new City_Graph();
 
-		city_graph2.loadMap("res/test2.mp");
+		city_graph2.loadMapByPath("res/test2.mp");
 		
 		assertEquals(city_graph2.convertGameStateToString(),"CRNNNNRNNC");
 	}
@@ -175,7 +175,7 @@ public class City_GraphTest {
 	public void gameStateTransitionTest() {
 		City_Graph city_graph2 = new City_Graph();
 
-		city_graph2.loadMap("res/test.mp");
+		city_graph2.loadMapByPath("res/test.mp");
 		
 		Move move = new Move("R 2");
 		
@@ -188,7 +188,7 @@ public class City_GraphTest {
 	public void gameStateTransitionTest2() {
 		City_Graph city_graph2 = new City_Graph();
 
-		city_graph2.loadMap("res/test2.mp");
+		city_graph2.loadMapByPath("res/test2.mp");
 		
 		Move move = new Move("R 2");
 		

@@ -20,28 +20,24 @@ public class City_Graph implements Iterable<City>{
 	
 	/**
 	 * loads the map given by the param
-	 * Should always be called before using
-	 * the city_graph
+	 * 
 	 * 
 	 * @param mappath String to the mapfile
 	 * @return true if loading was sucessfull false if not
 	 */
-	public boolean loadMap(String mappath){
-		
-
-		pathList = new ArrayList<>();
-		cityList = new VertexSet();
-		
-		biggestX = 0;
-		biggestY = 0;
+	public boolean loadMapByPath(String mappath){
 		
 		BufferedReader fileReader = null;
 		String line = null;
 
+		ArrayList<String> mapdata =  new ArrayList<>();
 		
 		try {
 			fileReader = new BufferedReader(new FileReader(mappath));
-			 line = fileReader.readLine();
+			
+			while((line = fileReader.readLine()) != null){
+				mapdata.add(line);
+			}
 		
 		} catch (FileNotFoundException e) {
 			System.out.println("Failed to read File");
@@ -51,9 +47,52 @@ public class City_Graph implements Iterable<City>{
 			return false;
 		}
 		
+		return this.initMap(mapdata);
+
+		
+	}
+
+	
+	/**
+	 * loads the map given by the param
+	 * 
+	 * 
+	 * @param mapdata
+	 * @return true if loading was sucessfull false if not
+	 */
+	public boolean loadMapByStrings(ArrayList<String> mapdata){
+		return this.initMap(mapdata);
+	}
+	
+	
+
+	private ArrayList<Path> pathList;
+	private VertexSet cityList;
+	
+	private int  biggestX;
+	private int  biggestY;
+
+	
+	private boolean initMap(ArrayList<String> mapdata){
+		
+		pathList = new ArrayList<>();
+		cityList = new VertexSet();
+		
+		biggestX = 0;
+		biggestY = 0;
+		
+		String line = null;
+
+		
+		int currentLine = 0;
+		line = mapdata.get(currentLine);
+		
 		amountOfCitys = Integer.parseInt(line);
 
-		while(line != null){
+		while(mapdata.size() > ++currentLine){
+			
+			line = mapdata.get(currentLine);
+			
 			String prefix = line.split(" ")[0];
 			
 			if(prefix.equals("V")){
@@ -143,25 +182,10 @@ public class City_Graph implements Iterable<City>{
 				}
 				
 			}
-			try{
-				line = fileReader.readLine();
-			}catch(IOException ex){
-				System.out.println("error while reading mapfile");
-				return false;
-			}
+
 		}
 		return true;
 	}
-
-	
-	
-
-	private ArrayList<Path> pathList;
-	private VertexSet cityList;
-	
-	private int  biggestX;
-	private int  biggestY;
-	
 	
 	/**
 	 * 

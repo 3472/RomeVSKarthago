@@ -27,9 +27,8 @@ public class ConsolGame implements GameLogic,Runnable{
 	private Move prevMove;
 	private boolean moveMake;
 	
-	public ConsolGame(String path, PlayerAbs player1, PlayerAbs player2){
-		city_Graph = new City_Graph();
-		city_Graph.loadMap(path);
+	public ConsolGame(City_Graph cityGraph, PlayerAbs player1, PlayerAbs player2){
+		city_Graph = cityGraph;
 		
 		history = new History();
 		history.add(city_Graph);
