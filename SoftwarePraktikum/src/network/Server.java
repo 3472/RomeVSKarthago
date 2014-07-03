@@ -19,6 +19,7 @@ public class Server extends NetworkIO implements ServerIOHandler {
 	private BufferedReader fromClient;
 	private PrintWriter toClient;
 
+	private final long WAIT = 60000;//1 Minute
 	private final Pattern MOVEPATTERN = Pattern.compile("R X|R [0-9]+");
 	private final Pattern MAPPATTERN = Pattern.compile("E [0-9]+ [0-9]+|V [0-9]+ [C|R|N] [0-9]+ [0-9]+");
 	
@@ -31,12 +32,25 @@ public class Server extends NetworkIO implements ServerIOHandler {
 
 	@Override
 	public String readMove() throws IOException {
-		String result;
+		long time = System.currentTimeMillis() + WAIT;
 		
 		//Das laesst sich bestimmt noch effektiver und schoener Loesen
 		while(!fromClient.ready()){
+			try {
+				System.out.println("Ich warte");
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
+			if(System.currentTimeMillis() > time){
+				endConnection();
+				return null;
+			}
 		}
+		
+		String result;
 		
 		result = fromClient.readLine();
 		
@@ -68,9 +82,9 @@ public class Server extends NetworkIO implements ServerIOHandler {
 		try (
 				ServerSocket serverSocket = new ServerSocket(port);
 			){
-				serverSocket.setSoTimeout(60000);
 				client = serverSocket.accept();
 			
+				System.out.println("Server: Verbinung hergestellt");
 				
 				fromClient = new BufferedReader(new InputStreamReader(client.getInputStream()));
 				toClient = new PrintWriter(client.getOutputStream(), true);
@@ -81,6 +95,7 @@ public class Server extends NetworkIO implements ServerIOHandler {
 					System.out.println("Server: "+fromClient.ready());
 					return result;
 				}else{
+					System.out.println("Server: Fehler");
 					endConnection();
 					return null;
 				}
@@ -117,6 +132,18 @@ public class Server extends NetworkIO implements ServerIOHandler {
 			
 		return resultList;	
 		
+	}
+	
+	public static void main(String[]args){
+		Server server = new Server();
+		try {
+			server.initServer(3142);
+			
+			server.readMove();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

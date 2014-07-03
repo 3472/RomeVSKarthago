@@ -1,8 +1,9 @@
 package network;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public interface ClientIOHandler extends NetworkIOHandler{
 
-	public void initClient(ArrayList<String> map, int port);
+	public void initClient(ArrayList<String> map, int port) throws IOException;
 }
