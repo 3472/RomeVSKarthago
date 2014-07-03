@@ -1,6 +1,8 @@
 package network;
 
+import java.util.ArrayList;
+
 public interface ClientIOHandler extends NetworkIOHandler{
 
-	public void initClient(String map, int port);
+	public void initClient(ArrayList<String> map, int port);
 }
