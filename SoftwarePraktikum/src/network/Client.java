@@ -54,7 +54,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 		toServer.println(move.toString());
 	}
 	
-	
+	@Override
 	public void initClient(ArrayList<String> map, int port) {
 		for(String str : map){
 			System.out.println("Client: "+str);
