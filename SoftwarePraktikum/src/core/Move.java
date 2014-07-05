@@ -4,13 +4,11 @@ public class Move {
 	
 	private Player player;
 	private int targetCityID;
-	private boolean illigalMove;
 	
 	
 	public Move(Player p, int id) {
 		player = p;
 		targetCityID = id;
-		illigalMove = id < 0;
 	}
 	
 	
@@ -40,8 +38,7 @@ public class Move {
 		}else{
 			ID = Integer.parseInt(Split[1]);
 		}
-		
-		illigalMove = ID < 0;
+
 		Player player = null;
 		
 		
@@ -52,13 +49,7 @@ public class Move {
 		return move;
 	}
 	
-	public boolean wasMoveIllegal(){
-		return illigalMove;
-	}
-	
-	public void makeMoveIllegal(){
-		illigalMove = true;
-	}
+
 	
 	//Kai
 	public String toString(){		

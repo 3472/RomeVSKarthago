@@ -25,7 +25,7 @@ public class Main {
 		String[] test8 = {"-local","-kieasy","-scooge","res/editormap.mp"};
 		String[] test9 = {"-local","-kieasy","-scooge","res/bigmap.mp"};
 		String[] test10 = {"-local","-scooge","-kieasy","res/bigmap.mp"};
-		String[] test11 = {"-local","-kieasy","-kieasy","res/bigmap.mp"};
+		String[] test11 = {"-local","-kieasy","-consoleplayer","res/bigmap.mp"};
 		new Main(test11);
 	}
 	

@@ -50,4 +50,11 @@ public class History {
 		}
 
 	}
+	
+	public boolean wasLastMoveIllegal(){
+		if(history.size() < 2){
+			return false;
+		}
+		return history.get(history.size()-1).equals(history.get(history.size()-2));
+	}
 }

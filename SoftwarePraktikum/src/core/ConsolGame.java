@@ -161,7 +161,6 @@ public class ConsolGame implements GameLogic{
 
 		else if(status.equals("Illegal")) {
 			System.out.println("Illegal move");
-			move.makeMoveIllegal();
 			currentPlayer.skip = 1;	
 
 		}	

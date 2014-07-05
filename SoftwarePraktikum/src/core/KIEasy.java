@@ -26,7 +26,7 @@ public class KIEasy extends PlayerAbs{
 		 * gewonnen
 		 */
 		if(prevMove != null){
-			if(prevMove.wasMoveIllegal()){
+			if(h.wasLastMoveIllegal()){
 				if(city_graph.getScore(thisPlayer) > city_graph.getScore(otherPlayer)){
 					return forfitMove();
 				}
