@@ -1,7 +1,12 @@
 package core;
 
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import network.Client;
 import network.NetworkIOHandler;
@@ -10,7 +15,9 @@ import network.Server;
 public class Main {
 
 	public static void main(String[] args){
-		new Main(args);
+		String[] test1 = {"-server","7762","-sloth"};
+		String[] test2 = {"-client","7762","-sloth","res/test.mp"};
+		new Main(test2);
 	}
 	
 	
@@ -21,7 +28,11 @@ public class Main {
 		}
 			
 		if(args[0].equals("-server")){
-			initServerGame(args);
+			try {
+				initServerGame(args);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}else if(args[0].equals("-client")){
 			initClientGame(args);
 		}else if(args[0].equals("-local")){
@@ -37,14 +48,18 @@ public class Main {
 	/*
 	 * Input for Server: 1. -server 2. port 3. (local) player
 	 */
-	private void initServerGame(String[] args) {
+	private void initServerGame(String[] args) throws IOException {
 		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo);
 		
 		int port = Integer.parseInt(args[1]);
-		Server bla = new Server();
-		bla.initServer(port);
+		Server server = new Server();
+		City_Graph cityGraph = new City_Graph();
+		cityGraph.loadMapByStrings(server.initServer(port));
 		
-		PlayerAbs p1 = new NetworkPlayer(Player.Rom, bla);
+		PlayerAbs p1 = new NetworkPlayer(Player.Rom, server);
+		
+		
+		new ConsolGame(cityGraph, p1, p2);
 	}
 
 
@@ -53,7 +68,17 @@ public class Main {
 	 * Input for Client: 1. -client 2. port 3. (local)player 4. mapfile
 	 */
 	private void initClientGame(String[] args) {
+		
+		
+		ArrayList<String> mapdata = this.readMapFileAndMove(args[3]);
+		
+		
 		PlayerAbs p1 = getPlayerFromString(args[2], Player.Rom);
+		
+		if(mapdata == null || p1 == null){
+			System.exit(1);
+		}
+
 	
 		
 		City_Graph cityGraph = new City_Graph();
@@ -66,9 +91,20 @@ public class Main {
 		
 		int port = Integer.parseInt(args[1]);
 		Client client = new Client();
-		client.initClient(args[2], port);
+		
+		
+		
+		
+		try {
+			client.initClient(mapdata, port);
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+		}
 
 		PlayerAbs p2 = new NetworkPlayer(Player.Cathargo, client);
+		
+		new ConsolGame(cityGraph, p1, p2);
 	}
 
 
@@ -131,4 +167,27 @@ public class Main {
 		return null;
 	}
 	
+	private ArrayList<String> readMapFileAndMove(String mappath){
+		BufferedReader fileReader = null;
+		String line = null;
+
+		ArrayList<String> mapdata =  new ArrayList<>();
+		
+		try {
+			fileReader = new BufferedReader(new FileReader(mappath));
+			
+			while((line = fileReader.readLine()) != null){
+				mapdata.add(line);
+			}
+		
+		} catch (FileNotFoundException e) {
+			System.out.println("Failed to read File");
+			mapdata = null;
+		} catch(IOException e) {
+			System.out.println("Failed to read File");
+			mapdata = null;
+		}
+		
+		return mapdata;
+	}
 }

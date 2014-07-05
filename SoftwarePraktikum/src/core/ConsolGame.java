@@ -55,6 +55,8 @@ public class ConsolGame implements GameLogic,Runnable{
 			
 			moveMake = false;
 		
+			
+			//TODO: Send Move change
 			while(!moveMake){
 				
 				System.out.print("> ");
@@ -62,6 +64,7 @@ public class ConsolGame implements GameLogic,Runnable{
 				move = currentPlayer.makeMove(city_Graph, prevMove);
 				if(move != null){
 					moveMake = true;
+					System.out.println(move.toString());
 				}
 				
 		

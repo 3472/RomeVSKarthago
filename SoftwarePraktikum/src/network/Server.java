@@ -66,9 +66,16 @@ public class Server extends NetworkIO implements ServerIOHandler {
 	}
 
 	public  void endConnection() throws IOException {
+		System.out.println("Closing Connection");
 		fromClient.close();
 		toClient.close();
 		client.close();
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -82,6 +89,8 @@ public class Server extends NetworkIO implements ServerIOHandler {
 		try (
 				ServerSocket serverSocket = new ServerSocket(port);
 			){
+				System.out.println("Server: gestartet warte auf Client");
+			
 				client = serverSocket.accept();
 			
 				System.out.println("Server: Verbinung hergestellt");
@@ -134,7 +143,7 @@ public class Server extends NetworkIO implements ServerIOHandler {
 		
 	}
 	
-	public static void main(String[]args){
+	/*public static void main(String[]args){
 		Server server = new Server();
 		try {
 			server.initServer(3142);
@@ -144,6 +153,6 @@ public class Server extends NetworkIO implements ServerIOHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 }

@@ -26,8 +26,18 @@ public class NetworkPlayer extends PlayerAbs{
 		
 		
 		Player p = null;
-		String input = network.readMove();
-		
+		String input = null;
+		try {
+			input = network.readMove();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		if(input == null || input.split(" ").length != 2){
+			System.out.println("Wrong move recieved");
+			System.out.println(input);
+			return null;
+		}
 		if(input.split(" ")[0].equals("R")){
 			p = Player.Rom;
 		}else{

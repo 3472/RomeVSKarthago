@@ -34,6 +34,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 	public String readMove() throws IOException {
 		long time = System.currentTimeMillis() + WAIT;
 		
+		
 		while(!fromServer.ready()){
 			try {
 				Thread.sleep(1000);
@@ -48,20 +49,25 @@ public class Client extends NetworkIO implements ClientIOHandler{
 			}
 		}
 		
+		
 		String line = fromServer.readLine();
 		Matcher matcher = MOVEPATTERN.matcher(line);
+		
+		System.out.println("recieved move from Server: " + line);
 		
 		if(matcher.matches()){
 			return line;
 		}else{
+			
 			endConection();
 			return null;
 		}
 	}
 	
 	
-	public void sendMove(String move) {
-		// TODO Auto-generated method stub
+	@Override
+	public void sendMove(Move move) {
+		System.out.println("Sending Move To Server: " + move.toString());
 		toServer.println(move.toString());
 	}
 	
@@ -81,13 +87,14 @@ public class Client extends NetworkIO implements ClientIOHandler{
 	}
 	
 	private void endConection() throws IOException{
+		System.out.println("Closing Connection");
 		fromServer.close();
 		toServer.close();
 		server.close();
-		
+		System.exit(1);
 	}
 	
-	public static void main(String[]args){
+	/*public static void main(String[]args){
 		Client client = new Client();
 		
 		ArrayList<String> bla = new ArrayList<String>();
@@ -103,7 +110,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
 	
 	
 
