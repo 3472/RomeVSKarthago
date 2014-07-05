@@ -17,7 +17,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 	private PrintWriter toServer = null;
 	
 	private final long WAIT = 60000;//1 Minute
-	private final Pattern MOVEPATTERN = Pattern.compile("R X|R [0-9]+");
+	private final Pattern MOVEPATTERN = Pattern.compile("C X|C [0-9]+");
 	
 	private final String EOL = System.getProperty("line.separator");
 	

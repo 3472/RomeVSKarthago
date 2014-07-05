@@ -146,14 +146,14 @@ public class ConsolGame implements GameLogic,Runnable{
 			}
 			else {
 				city_Graph = city_Graph.gameStateTransition(move);
-				prevMove = move;
+				
 				history.add(city_Graph);
 		
 				pl1.skip = 0;
 				pl2.skip = 0;
 	
 			}	
-
+			
 		}	
 
 		else if(status.equals("Illegal")) {
@@ -161,6 +161,8 @@ public class ConsolGame implements GameLogic,Runnable{
 			currentPlayer.skip = 1;	
 
 		}	
+		
+		prevMove = move;
 
 		if(pl1.skip == 1 && pl2.skip == 1){
 			GameOver = true;
