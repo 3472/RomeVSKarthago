@@ -57,18 +57,16 @@ public class ConsolGame implements GameLogic{
 		
 			
 			//TODO: Send Move change
-			while(!moveMake){
-				
-				System.out.print("> ");
-				move = null;
-				move = currentPlayer.makeMove(city_Graph, prevMove);
-				if(move != null){
-					moveMake = true;
-					System.out.println(move.toString());
-				}
-				
-		
+			
+			System.out.print("> ");
+			move = null;
+			move = currentPlayer.makeMove(city_Graph, prevMove);
+			if(move != null){
+				System.out.println(move.toString());
 			}
+			
+		
+			
 			doLogic();
 			
 			
@@ -88,7 +86,7 @@ public class ConsolGame implements GameLogic{
 	@Override
 	public String logic(Move move, City_Graph graph,PlayerAbs currentPlayer) {
 		
-		if(move == null) {	
+		if(move == null || move.getCityID() == -1) {	
 				return "Illegal";
 		}
 		else {

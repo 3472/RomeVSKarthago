@@ -32,8 +32,14 @@ public class Move {
 		
 		String[] Split = instruction.split(" ");
 		String owner = Split[0];
-		int ID = Integer.parseInt(Split[1]);
+		int ID;
+		if(Split[1].equals("X")){
+			ID = -1;
+		}else{
+			ID = Integer.parseInt(Split[1]);
+		}
 		Player player = null;
+		
 		
 		if(owner.equals(Character.toString('R'))) player =  Player.Rom;
 		else if(owner.equals(Character.toString('C'))) player  = Player.Cathargo;
