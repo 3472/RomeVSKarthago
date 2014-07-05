@@ -16,7 +16,8 @@ public class Main {
 
 	public static void main(String[] args){
 		String[] test1 = {"-server","7762","-sloth"};
-		String[] test2 = {"-client","7762","-sloth","res/test.mp"};
+		String[] test2 = {"-client","7762","-sloth","res/test2.mp"};
+		String[] test3 = {"-local","-sloth","-sloth","res/test_zettel2_1.mp"};
 		new Main(test2);
 	}
 	
@@ -59,7 +60,9 @@ public class Main {
 		PlayerAbs p1 = new NetworkPlayer(Player.Rom, server);
 		
 		
-		new ConsolGame(cityGraph, p1, p2);
+		ConsolGame cg = new ConsolGame(cityGraph, p1, p2);
+		server.sendMove(cg.getFinalMove());
+		server.endConnection();
 	}
 
 
@@ -104,7 +107,9 @@ public class Main {
 
 		PlayerAbs p2 = new NetworkPlayer(Player.Cathargo, client);
 		
-		new ConsolGame(cityGraph, p1, p2);
+		ConsolGame cg = new ConsolGame(cityGraph, p1, p2);
+		client.sendMove(cg.getFinalMove());
+		client.endConection();
 	}
 
 

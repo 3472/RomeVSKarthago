@@ -53,7 +53,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 		String line = fromServer.readLine();
 		Matcher matcher = MOVEPATTERN.matcher(line);
 		
-		System.out.println("recieved move from Server: " + line);
+		//System.out.println("recieved move from Server: " + line);
 		
 		if(matcher.matches()){
 			return line;
@@ -67,7 +67,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 	
 	@Override
 	public void sendMove(Move move) {
-		System.out.println("Sending Move To Server: " + move.toString());
+		//System.out.println("Sending Move To Server: " + move.toString());
 		toServer.println(move.toString());
 	}
 	
@@ -86,11 +86,15 @@ public class Client extends NetworkIO implements ClientIOHandler{
 		toServer.println();
 	}
 	
-	private void endConection() throws IOException{
+	public void endConection(){
 		System.out.println("Closing Connection");
-		fromServer.close();
-		toServer.close();
-		server.close();
+		try {
+			fromServer.close();
+			toServer.close();
+			server.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		System.exit(1);
 	}
 	

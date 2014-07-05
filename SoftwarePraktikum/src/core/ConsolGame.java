@@ -14,7 +14,7 @@ import javax.swing.text.PlainDocument;
 
 //Johannes
 //Du k���mmerst dich darum, die Konsolen aplikation zum laufen zu bringen, hab schon mal ein Grundger���st vor getippt
-public class ConsolGame implements GameLogic,Runnable{
+public class ConsolGame implements GameLogic{
 	
 	private boolean GameOver;
 	private Board gameBoard;
@@ -40,14 +40,14 @@ public class ConsolGame implements GameLogic,Runnable{
 		currentPlayer = player1;
 		prevMove = null;
 		
-		Thread th = new Thread(this);
-		th.start();
+		runs();
+		//Thread th = new Thread(this);
+		//th.start();
 	}
 	
 	
 	//Johannes
-	@Override
-	public void run() {
+	public void runs() {
 
 		
 		GameOver = false;
@@ -184,4 +184,5 @@ public class ConsolGame implements GameLogic,Runnable{
 		}
 	}
 	
+	public Move getFinalMove(){ return prevMove; }
 }

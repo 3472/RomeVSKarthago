@@ -37,7 +37,7 @@ public class Server extends NetworkIO implements ServerIOHandler {
 		//Das laesst sich bestimmt noch effektiver und schoener Loesen
 		while(!fromClient.ready()){
 			try {
-				System.out.println("Ich warte");
+				//System.out.println("Ich warte");
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -118,7 +118,7 @@ public class Server extends NetworkIO implements ServerIOHandler {
 		String line = fromClient.readLine();
 		Matcher matcher;
 		
-		if(! line.matches("[0-9]")){
+		if(! line.matches("[0-9]+")){
 			endConnection();
 			return null;
 		}
