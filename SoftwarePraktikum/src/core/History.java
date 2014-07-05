@@ -10,9 +10,11 @@ import java.util.ArrayList;
 public class History {
 
 	private ArrayList<String> history;
+	private boolean lastMoveIllegal;
 
 	public History() {
 		history = new ArrayList<String>();
+		lastMoveIllegal = false;
 	}
 
 	/*
@@ -40,21 +42,23 @@ public class History {
 	 * @return true falls der Zustand noch nicht in der History auftaucht
 	 */
 	public boolean add(City_Graph graph) {
+		boolean res = true;
+		lastMoveIllegal = false;
+		
+		
 		if (contains(graph)) {
-			return false;
-		} else {
-			String gameState = graph.convertGameStateToString();
-
-			history.add(gameState);
-			return true;
+			res = false;
+			lastMoveIllegal = true;
 		}
+		
+		String gameState = graph.convertGameStateToString();
+		history.add(gameState);
+		
+		return res;
 
 	}
 	
 	public boolean wasLastMoveIllegal(){
-		if(history.size() < 2){
-			return false;
-		}
-		return history.get(history.size()-1).equals(history.get(history.size()-2));
+		return lastMoveIllegal;
 	}
 }

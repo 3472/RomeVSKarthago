@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/core/ConsolGame.java=UTF-8
 encoding//src/core/History.java=UTF-8
-encoding//src/core/KIEasy.java=UTF-8
+encoding//src/core/KIEasyJ.java=UTF-8
+encoding//src/core/KINormalJ.java=UTF-8
 encoding//src/test/TerminalTestSession.java=UTF-8

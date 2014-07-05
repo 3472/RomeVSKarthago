@@ -56,7 +56,7 @@ public class ConsolGame implements GameLogic{
 			moveMake = false;
 		
 			try {
-				Thread.sleep(400);
+				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -149,8 +149,6 @@ public class ConsolGame implements GameLogic{
 			}
 			else {
 				city_Graph = city_Graph.gameStateTransition(move);
-				
-				history.add(city_Graph);
 		
 				pl1.skip = 0;
 				pl2.skip = 0;
@@ -165,6 +163,8 @@ public class ConsolGame implements GameLogic{
 
 		}	
 		
+		// der CityGraph wird jetzt immer hinzugefügt
+		history.add(city_Graph);
 		prevMove = move;
 
 		if(pl1.skip == 1 && pl2.skip == 1){
@@ -173,6 +173,7 @@ public class ConsolGame implements GameLogic{
 			System.out.println("SCORE:");
 			System.out.println("ROM: " + city_Graph.getScore(Owner.Rom));
 			System.out.println("CATHARGO: " + city_Graph.getScore(Owner.Cathargo));
+	
 		}
 			
 

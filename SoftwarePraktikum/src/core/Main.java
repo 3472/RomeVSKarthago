@@ -17,16 +17,16 @@ public class Main {
 	public static void main(String[] args){
 		String[] test1 = {"-server","7762","-sloth"};
 		String[] test2 = {"-client","7762","-sloth","res/test2.mp"};
-		String[] test3 = {"-local","-sloth","-sloth","res/test_zettel2_1.mp"};
-		String[] test4 = {"-local","-scooge","-scooge","res/test_zettel2_1.mp"};
-		String[] test5 = {"-local","-scoogejoy","-consoleplayer","res/editormap.mp"};
-		String[] test6 = {"-local","-kieasy","-scoogejoy","res/editormap.mp"};
-		String[] test7 = {"-local","-scooge","-kieasy","res/editormap.mp"};
-		String[] test8 = {"-local","-kieasy","-scooge","res/editormap.mp"};
-		String[] test9 = {"-local","-kieasy","-scooge","res/bigmap.mp"};
-		String[] test10 = {"-local","-scooge","-kieasy","res/bigmap.mp"};
-		String[] test11 = {"-local","-kieasy","-consoleplayer","res/bigmap.mp"};
-		new Main(test11);
+		String[] test3 = {"-local","-sloth","-kinormalj","res/bigmap.mp"};
+		String[] test4 = {"-local","-killjoy","-kinormalj","res/bigmap.mp"};
+		String[] test5 = {"-local","-kieasyj","-kinormalj","res/bigmap.mp"};
+		String[] test6 = {"-local","-kinormalj","-kieasyj","res/bigmap.mp"};
+		String[] test7 = {"-local","-kieasyj","-kinormalj","res/editormap.mp"};
+		String[] test8 = {"-local","-kieasyj","-scooge","res/editormap.mp"};
+		String[] test9 = {"-local","-kieasyj","-scooge","res/bigmap.mp"};
+		String[] test10 = {"-local","-scooge","-kieasyj","res/bigmap.mp"};
+		String[] test11 = {"-local","-kieasyj","-consoleplayer","res/bigmap.mp"};
+		new Main(test5);
 	}
 	
 	
@@ -187,9 +187,12 @@ public class Main {
 		
 			return new ScoogeJoy(p);
 			
-		}else if(name.toUpperCase().equals("-KIEASY")){
+		}else if(name.toUpperCase().equals("-KIEASYJ")){
 			
-			return new KIEasy(p);
+			return new KIEasyJ(p);
+		}else if(name.toUpperCase().equals("-KINORMALJ")){
+			
+			return new KINormalJ(p);
 		}
 		
 		return null;

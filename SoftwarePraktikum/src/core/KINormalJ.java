@@ -1,22 +1,23 @@
 package core;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
-public class KIEasy extends PlayerAbs{
+public class KINormalJ extends PlayerAbs{
 
-	int zugNr;
-	
-	public KIEasy(Player name) {
+	public KINormalJ(Player name) {
 		super(name);
-		zugNr = 0;
+		maxNeuralNeighboursToTry = 2;
 	}
 
+	int maxNeuralNeighboursToTry;
+	
 	@Override
 	public Move makeMove(City_Graph city_graph, History h, Move prevMove) {
 		
-		
-		zugNr++;
-		
+
 		Owner thisPlayer = this.PlayerToOwner(name);
 		Owner otherPlayer = this.ReturnOtherPlayer(PlayerToOwner(name));
 		
@@ -59,6 +60,31 @@ public class KIEasy extends PlayerAbs{
 		
 		if(biggestDifference > 0){
 			return killMove;
+		}
+		
+		
+		
+		/*
+		 * es wird geschaut ob man eine Neutrale stadt 
+		 * mit x zügen umrunden kann
+		 */
+		ArrayList<ArrayList<City>> possibleFields = this.onlyXToSurround(city_graph,
+				maxNeuralNeighboursToTry);
+		
+		if(!possibleFields.isEmpty()){
+			int smallest = 1;
+			while(smallest <= maxNeuralNeighboursToTry){
+				for(ArrayList<City> cityList : possibleFields){
+					int i = cityList.size();
+					if(i == smallest){
+						
+						//TODO: den besten wählen
+						System.out.println("THISWAY");
+						return new Move(name,  cityList.get(0).getID());
+					}
+				}
+				smallest++;
+			}
 		}
 		
 		
@@ -121,7 +147,6 @@ public class KIEasy extends PlayerAbs{
         					Owner.Neutral);
         			if(neutrals > mostNeutral){
         				mostNeutral = neutrals;
-        				System.out.println(neutrals);
         				bestMove = new Move(name, targetCity.getID());
         			}
         		}
@@ -132,6 +157,8 @@ public class KIEasy extends PlayerAbs{
     
     	
     	return bestMove;
+		
+		
 	}
 	
 	
@@ -155,5 +182,38 @@ public class KIEasy extends PlayerAbs{
 		
 		return res;
 	}
-	 
+
+	private ArrayList<ArrayList<City>> onlyXToSurround(City_Graph cityGraph, int x){
+		
+		
+		
+		ArrayList<ArrayList<City>> res = new ArrayList<ArrayList<City>>();
+		
+		
+		for(City c : cityGraph){
+			
+			if(c.getOwner() == Owner.Neutral){
+				VertexSet n = cityGraph.getNeighbourhood(c);
+				
+				ArrayList<City> resSet = new ArrayList<City>();
+				
+				
+				int amount = citysInSetRuledByOwner(n, Owner.Neutral);
+				if(amount <= x && amount > 0
+						&& citysInSetRuledByOwner(n, this.ReturnOtherPlayer(
+								this.PlayerToOwner(name))) == 0){
+					
+					
+					for(City city : n){
+						if(city.getOwner() == Owner.Neutral){
+							resSet.add(city);
+						}
+					}
+					res.add(resSet);
+				}
+			}
+		}
+		
+		return res;
+	}
 }

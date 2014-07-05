@@ -30,10 +30,6 @@ public class Scooge extends PlayerAbs {
 		
 		
 		
-		
-		
-		
-		
 		Iterator<City> it = city_graph.iterator();
 		
 		Move bestMove = null;
