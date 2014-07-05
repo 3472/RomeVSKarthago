@@ -15,7 +15,7 @@ public class Sloth extends PlayerAbs {
 	}
 	
 	
-public Move makeMove(City_Graph cityGraph, Move prevMove) {
+public Move makeMove(City_Graph cityGraph, History h, Move prevMove) {
 		
 		Iterator<City> it = cityGraph.iterator();
 		

@@ -19,8 +19,11 @@ public class Main {
 		String[] test2 = {"-client","7762","-sloth","res/test2.mp"};
 		String[] test3 = {"-local","-sloth","-sloth","res/test_zettel2_1.mp"};
 		String[] test4 = {"-local","-scooge","-scooge","res/test_zettel2_1.mp"};
-		String[] test5 = {"-local","-scooge","-scoogejoy","res/test_zettel2_1.mp"};
-		new Main(test5);
+		String[] test5 = {"-local","-scoogejoy","-consoleplayer","res/editormap.mp"};
+		String[] test6 = {"-local","-kieasy","-scoogejoy","res/editormap.mp"};
+		String[] test7 = {"-local","-scooge","-kieasy","res/editormap.mp"};
+		String[] test8 = {"-local","-kieasy","-scooge","res/editormap.mp"};
+		new Main(test8);
 	}
 	
 	
@@ -181,6 +184,9 @@ public class Main {
 		
 			return new ScoogeJoy(p);
 			
+		}else if(name.toUpperCase().equals("-KIEASY")){
+			
+			return new KIEasy(p);
 		}
 		
 		return null;

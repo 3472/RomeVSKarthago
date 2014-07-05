@@ -8,7 +8,7 @@ public class Observer extends PlayerAbs{
 	}
 	
 	@Override
-	public Move makeMove(City_Graph city_graph, Move prevMove){
+	public Move makeMove(City_Graph city_graph, History h, Move prevMove){
 		return null;
 	}
 

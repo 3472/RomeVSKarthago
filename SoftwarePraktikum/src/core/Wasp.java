@@ -10,7 +10,7 @@ public class Wasp extends PlayerAbs {
 	
 	
 	
-	public Move makeMove(City_Graph cityGraph, Move prevMove) {
+	public Move makeMove(City_Graph cityGraph, History h, Move prevMove) {
 		Move move = new Move(this.name, 0);
 		return move;
 	}

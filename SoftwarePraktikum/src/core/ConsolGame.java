@@ -55,12 +55,17 @@ public class ConsolGame implements GameLogic{
 			
 			moveMake = false;
 		
-			
+			try {
+				Thread.sleep(800);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//TODO: Send Move change
 			
 			System.out.print("> ");
 			move = null;
-			move = currentPlayer.makeMove(city_Graph, prevMove);
+			move = currentPlayer.makeMove(city_Graph, history, prevMove);
 			if(move != null){
 				System.out.println(move.toString());
 			}
@@ -156,6 +161,7 @@ public class ConsolGame implements GameLogic{
 
 		else if(status.equals("Illegal")) {
 			System.out.println("Illegal move");
+			move.makeMoveIllegal();
 			currentPlayer.skip = 1;	
 
 		}	

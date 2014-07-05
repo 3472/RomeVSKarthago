@@ -17,7 +17,7 @@ public class NetworkPlayer extends PlayerAbs{
 	}
 
 	@Override
-	public Move makeMove(City_Graph city_graph, Move prevMove) {
+	public Move makeMove(City_Graph city_graph, History h, Move prevMove) {
 		
 		if(prevMove != null){
 			network.sendMove(prevMove);

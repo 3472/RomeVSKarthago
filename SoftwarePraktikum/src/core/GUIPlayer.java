@@ -10,7 +10,7 @@ public class GUIPlayer extends PlayerAbs{
 	}
 	
 	@Override
-	public Move makeMove(City_Graph c, Move prevMove){
+	public Move makeMove(City_Graph c, History h, Move prevMove){
 		//return b.getMove();
 		return null;
 	}

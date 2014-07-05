@@ -29,7 +29,7 @@ public class HumanPlayerConsole extends PlayerAbs {
 	 * 
 	 * @return 
 	 */
-	public Move makeMove(City_Graph city_graph, Move prevMove){
+	public Move makeMove(City_Graph city_graph, History h, Move prevMove){
 		Move move = null;
 		String input = "";
 		
