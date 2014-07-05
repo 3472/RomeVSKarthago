@@ -70,6 +70,8 @@ public class KIEasy extends PlayerAbs{
 		
 		Move bestMove = null;
 		int highestScore = 0;
+		int currentScore = city_graph.getScore(PlayerToOwner(this.name));
+		
 		
     	while(it.hasNext()){
     		City targetCity = null;
@@ -89,13 +91,43 @@ public class KIEasy extends PlayerAbs{
     		}
     
     	}	
+    	int ScoreDiff = highestScore - currentScore;
     	
     	
     	/*
     	 * gibt kein Zug punkte wird ausgesetzt
     	 */
-    	if(highestScore == 0){
+    	if(ScoreDiff == 0){
     		return this.forfitMove();
+    	}
+    	
+    
+    	/*
+    	 * wenn der beste zug nur 1 punkt gibt,
+    	 * wird die stadt mit den meisten neutralen
+    	 * nachbern eingenommen
+    	 */
+    	if(ScoreDiff < 2){
+    		it = city_graph.iterator();
+    		
+    		int mostNeutral = 0;
+    		
+        	while(it.hasNext()){
+        		City targetCity = null;
+        		targetCity = it.next();
+        		if(targetCity.getOwner() == Owner.Neutral){
+        			int neutrals = this.citysInSetRuledByOwner(
+        					city_graph.getNeighbourhood(targetCity),
+        					Owner.Neutral);
+        			if(neutrals > mostNeutral){
+        				mostNeutral = neutrals;
+        				System.out.println(neutrals);
+        				bestMove = new Move(name, targetCity.getID());
+        			}
+        		}
+        
+        	}	
+        	
     	}
     
     	
@@ -112,6 +144,16 @@ public class KIEasy extends PlayerAbs{
 		
 		return res;
 	}
-	  
+	
+	
+	private int citysInSetRuledByOwner(VertexSet vertexSet, Owner o){
+		Iterator<City> it = vertexSet.iterator();
+		int res = 0;
+		while(it.hasNext()){
+			if(it.next().getOwner() == o) res++;
+		}
+		
+		return res;
+	}
 	 
 }

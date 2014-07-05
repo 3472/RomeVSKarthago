@@ -23,7 +23,10 @@ public class Main {
 		String[] test6 = {"-local","-kieasy","-scoogejoy","res/editormap.mp"};
 		String[] test7 = {"-local","-scooge","-kieasy","res/editormap.mp"};
 		String[] test8 = {"-local","-kieasy","-scooge","res/editormap.mp"};
-		new Main(test8);
+		String[] test9 = {"-local","-kieasy","-scooge","res/bigmap.mp"};
+		String[] test10 = {"-local","-scooge","-kieasy","res/bigmap.mp"};
+		String[] test11 = {"-local","-kieasy","-kieasy","res/bigmap.mp"};
+		new Main(test11);
 	}
 	
 	

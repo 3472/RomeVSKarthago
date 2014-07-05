@@ -56,7 +56,7 @@ public class ConsolGame implements GameLogic{
 			moveMake = false;
 		
 			try {
-				Thread.sleep(800);
+				Thread.sleep(400);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
