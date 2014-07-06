@@ -19,14 +19,15 @@ public class Main {
 		String[] test2 = {"-client","7762","-sloth","res/test2.mp"};
 		String[] test3 = {"-local","-sloth","-kinormalj","res/bigmap.mp"};
 		String[] test4 = {"-local","-killjoy","-kinormalj","res/bigmap.mp"};
-		String[] test5 = {"-local","-kieasyj","-kinormalj","res/bigmap.mp"};
-		String[] test6 = {"-local","-kinormalj","-kieasyj","res/bigmap.mp"};
-		String[] test7 = {"-local","-kieasyj","-kinormalj","res/editormap.mp"};
-		String[] test8 = {"-local","-kieasyj","-scooge","res/editormap.mp"};
-		String[] test9 = {"-local","-kieasyj","-scooge","res/bigmap.mp"};
-		String[] test10 = {"-local","-scooge","-kieasyj","res/bigmap.mp"};
-		String[] test11 = {"-local","-kieasyj","-consoleplayer","res/bigmap.mp"};
-		new Main(test5);
+		String[] test5 = {"-local","-kieasyj","-kinormalj","res/midmap.mp"};
+		String[] test6 = {"-local","-kinormalj","-kieasyj","res/editormap.mp"};
+		String[] test7 = {"-local","-kieasyj","-kinormalj","res/bigmap.mp"};
+		String[] test8 = {"-local","-kinormalj","-kieasyj","res/bigmap.mp"};
+		String[] test9 = {"-local","-kijh","-kinormalj","res/bigmap.mp"};
+		String[] test10 = {"-local","-kinormalj","-kijh","res/bigmap.mp"};
+		String[] test11 = {"-local","-kieasyj","-kijh","res/bigmap.mp"};
+		String[] test12 = {"-local","-kijh","-kieasyj","res/bigmap.mp"};
+		new Main(test8);
 	}
 	
 	
@@ -68,7 +69,7 @@ public class Main {
 		PlayerAbs p1 = new NetworkPlayer(Player.Rom, server);
 		
 		
-		ConsolGame cg = new ConsolGame(cityGraph, p1, p2);
+		ConsolGame cg = new ConsolGame(cityGraph, p1, p2, true);
 		server.sendMove(cg.getFinalMove());
 		server.endConnection();
 	}
@@ -115,7 +116,7 @@ public class Main {
 
 		PlayerAbs p2 = new NetworkPlayer(Player.Cathargo, client);
 		
-		ConsolGame cg = new ConsolGame(cityGraph, p1, p2);
+		ConsolGame cg = new ConsolGame(cityGraph, p1, p2, true);
 		client.sendMove(cg.getFinalMove());
 		client.endConection();
 	}
@@ -149,7 +150,7 @@ public class Main {
 			System.exit(1);
 		}
 		
-		new ConsolGame(cityGraph, p1, p2);
+		new ConsolGame(cityGraph, p1, p2, true);
 	}
 
 
@@ -193,6 +194,9 @@ public class Main {
 		}else if(name.toUpperCase().equals("-KINORMALJ")){
 			
 			return new KINormalJ(p);
+		}else if(name.toUpperCase().equals("-KIJH")){
+			
+			return new KIJH(p);
 		}
 		
 		return null;

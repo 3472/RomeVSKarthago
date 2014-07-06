@@ -27,13 +27,18 @@ public class ConsolGame implements GameLogic{
 	private Move prevMove;
 	private boolean moveMake;
 	
-	public ConsolGame(City_Graph cityGraph, PlayerAbs player1, PlayerAbs player2){
+	private boolean guiMode;
+	
+	public ConsolGame(City_Graph cityGraph, PlayerAbs player1, PlayerAbs player2, boolean guiMode){
 		city_Graph = cityGraph;
+		this.guiMode = guiMode;
 		
 		history = new History();
 		history.add(city_Graph);
 		
-		gameBoard = new Board(city_Graph);
+		if(guiMode){
+			gameBoard = new Board(city_Graph);
+		}
 		
 		pl1 = player1;
 		pl2 = player2;
@@ -56,7 +61,7 @@ public class ConsolGame implements GameLogic{
 			moveMake = false;
 		
 			try {
-				Thread.sleep(200);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -80,7 +85,9 @@ public class ConsolGame implements GameLogic{
 			 * (nicht vergessen das city_graph = newCityGraph 
 			 * DAVOR aufgerufen werden sollte)
 			 */
-			gameBoard.setNewGraph(city_Graph);
+			if(guiMode){
+				gameBoard.setNewGraph(city_Graph);
+			}
 			
 		}
 		
@@ -189,4 +196,7 @@ public class ConsolGame implements GameLogic{
 	}
 	
 	public Move getFinalMove(){ return prevMove; }
+	
+	public History getHistory(){ return history; }
+	
 }

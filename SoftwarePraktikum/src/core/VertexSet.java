@@ -137,4 +137,8 @@ public class VertexSet implements Iterable<City>{
 		this.addVertex(c);
 		return c;
 	}
+	
+	public int getSize(){
+		return cityMap.size();
+	}
 }

@@ -7,16 +7,28 @@ import java.util.Map;
 
 public class KINormalJ extends PlayerAbs{
 
+	int zugNr;
+	int maxNeuralNeighboursToTry;
+	int startNeutralSurroundStrat;
+	
 	public KINormalJ(Player name) {
 		super(name);
 		maxNeuralNeighboursToTry = 2;
+		startNeutralSurroundStrat = 2;
+		zugNr = 0;
 	}
 
-	int maxNeuralNeighboursToTry;
 	
 	@Override
 	public Move makeMove(City_Graph city_graph, History h, Move prevMove) {
+		zugNr++;
 		
+		// TODO: good startNeutralSurroundStrat setting
+		if(zugNr < startNeutralSurroundStrat){
+			//for(City c : city_graph){
+				
+			//}
+		}
 
 		Owner thisPlayer = this.PlayerToOwner(name);
 		Owner otherPlayer = this.ReturnOtherPlayer(PlayerToOwner(name));
@@ -68,25 +80,34 @@ public class KINormalJ extends PlayerAbs{
 		 * es wird geschaut ob man eine Neutrale stadt 
 		 * mit x zügen umrunden kann
 		 */
-		ArrayList<ArrayList<City>> possibleFields = this.onlyXToSurround(city_graph,
-				maxNeuralNeighboursToTry);
-		
-		if(!possibleFields.isEmpty()){
-			int smallest = 1;
-			while(smallest <= maxNeuralNeighboursToTry){
-				for(ArrayList<City> cityList : possibleFields){
-					int i = cityList.size();
-					if(i == smallest){
-						
-						//TODO: den besten wählen
-						System.out.println("THISWAY");
-						return new Move(name,  cityList.get(0).getID());
+		if(zugNr >= startNeutralSurroundStrat){
+			ArrayList<ArrayList<City>> possibleFields = this.onlyXToSurround(city_graph,
+					maxNeuralNeighboursToTry);
+			
+			if(!possibleFields.isEmpty()){
+				int smallest = 1;
+				while(smallest <= maxNeuralNeighboursToTry){
+					for(ArrayList<City> cityList : possibleFields){
+						int i = cityList.size();
+						if(i == smallest){
+							
+												
+							//TODO: den besten wählen
+							City bestCity = cityList.get(0);
+							Move bestMove = new Move(name,  bestCity.getID());
+							
+							
+							City_Graph testGraph = city_graph.gameStateTransition(bestMove);
+							if(!this.givesOneTurnCaptureArea(testGraph, testGraph.getCity(bestCity.getID()))){
+								return bestMove;
+							}
+							
+						}
 					}
+					smallest++;
 				}
-				smallest++;
 			}
 		}
-		
 		
 		
 		/*
@@ -108,7 +129,8 @@ public class KINormalJ extends PlayerAbs{
     					m);
     			
     			if(testGraph.getScore(PlayerToOwner(this.name)) > highestScore
-    					&& !h.contains(testGraph)){
+    					&& !h.contains(testGraph)
+    					&& !this.givesOneTurnCaptureArea(testGraph, testGraph.getCity(targetCity.getID()))){
     				highestScore = testGraph.getScore(
     						PlayerToOwner(this.name));
     				
@@ -215,5 +237,25 @@ public class KINormalJ extends PlayerAbs{
 		}
 		
 		return res;
+	}
+	
+	private boolean givesOneTurnCaptureArea(City_Graph cityGraph, City city){
+		
+		
+		if(city.getOwner() != this.PlayerToOwner(name)){
+			System.out.println("OMFG THIS IS SO UNEXPECTED");
+			return true;
+		}
+		VertexSet n = cityGraph.getVertexSetNeighbourhood(
+				cityGraph.getConnectedComponents(city));
+		
+		int count = 0;
+		for(City c : n){
+			if(c.getOwner() == Owner.Neutral){
+				count++;
+			}
+			
+		}
+		return count < 2;
 	}
 }

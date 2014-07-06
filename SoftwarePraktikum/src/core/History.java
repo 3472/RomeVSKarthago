@@ -58,7 +58,27 @@ public class History {
 
 	}
 	
+	/**
+	 * NOTE: This function is only used
+	 * 		 for test Cases.
+	 * 		 Don't use this in the actual programm
+	 * @param graph
+	 */
+	public void addStateAsString(String graph){
+		history.add(graph);
+	}
+	
 	public boolean wasLastMoveIllegal(){
 		return lastMoveIllegal;
+	}
+	
+	
+	/**
+	 * 
+	 * @param turn wanted turn
+	 * @return String representing the map
+	 */
+	public String getGameStateAt(int turn){
+		return history.get(turn);
 	}
 }
