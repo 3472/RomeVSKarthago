@@ -74,7 +74,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 	@Override
 	public void initClient(ArrayList<String> map, int port) throws IOException {
 		
-		server = new Socket("localhost",port);
+		server = new Socket("137.248.56.140",port);
 		
 		fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
 		toServer = new PrintWriter(server.getOutputStream(),true);
@@ -98,7 +98,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 		System.exit(1);
 	}
 	
-	/*public static void main(String[]args){
+	public static void main(String[]args){
 		Client client = new Client();
 		
 		ArrayList<String> bla = new ArrayList<String>();
@@ -114,7 +114,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}*/
+	}
 	
 	
 

@@ -1,0 +1,17 @@
+ToDO:
+
+//Gerald
+Bei GameFrame den Punktestand aktul. und das Panel Game Over umschalten wenn das Spiel vorbei ist.
+
+//Johannes/Moe
+
+Board so umschreiben das es ohne buttons für bot spiele etc funktioniert. (Also die Buttons rausschmeisen).
+Ein zweites Board machen mit Buttones, die buttones mit aktionlistiner versehen
+und es möglich machen, dass GUIPlayer weiß ob ein button geklickt wurde und wenn ja welcher und darauß einen Zug generiert.
+
+
+
+
+//Allgemein
+Ich bin mir nicht sicher ob es geht, das zwei Gui-Spieler in ein und dem selbern Fenster spielen können.
+Zu dem bin ich mir nicht sicher ob GUI spieler richtig geupdatet wird, falls es über netzwerk oder gegen bot geht, richtigen infos bekommt, bzw weiß wann er wieder drann ist.

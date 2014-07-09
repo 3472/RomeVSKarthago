@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 
 import javax.swing.text.PlainDocument;
 
+import GUI.Board;
+
 /*
  * Die Klasse ist sehr ���hnlich zu der Main-Loop die wir sp���ter brauchen
  */

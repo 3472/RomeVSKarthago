@@ -16,7 +16,7 @@ public class Main {
 
 	public static void main(String[] args){
 		String[] test1 = {"-server","7762","-sloth"};
-		String[] test2 = {"-client","7762","-sloth","res/test2.mp"};
+		String[] test2 = {"-client","7762","-consolePlayer","res/bigmap.mp"};
 		String[] test3 = {"-local","-sloth","-kinormalj","res/bigmap.mp"};
 		String[] test4 = {"-local","-killjoy","-kinormalj","res/bigmap.mp"};
 		String[] test5 = {"-local","-kieasyj","-kinormalj","res/midmap.mp"};
@@ -27,7 +27,7 @@ public class Main {
 		String[] test10 = {"-local","-kinormalj","-kijh","res/bigmap.mp"};
 		String[] test11 = {"-local","-kieasyj","-kijh","res/bigmap.mp"};
 		String[] test12 = {"-local","-kijh","-kieasyj","res/bigmap.mp"};
-		new Main(test8);
+		new Main(test2);
 	}
 	
 	
@@ -196,7 +196,7 @@ public class Main {
 			return new KINormalJ(p);
 		}else if(name.toUpperCase().equals("-KIJH")){
 			
-			return new KIJH(p);
+			//return new KIJH(p);
 		}
 		
 		return null;

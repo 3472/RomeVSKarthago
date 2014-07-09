@@ -1,7 +1,9 @@
-package core;
+package GUI;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,6 +15,11 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import core.City;
+import core.City_Graph;
+import core.Owner;
+import core.Path;
 
 
 
@@ -30,6 +37,8 @@ public class Board extends JPanel{
 	private Color neutralColor;
 	private Color romColor;
 	private Color cathargoColor;
+	
+	private int buttonKlicked;
 
 	
 	
@@ -111,18 +120,7 @@ public class Board extends JPanel{
 			int cityX = cityMidX - squareHalf;
 			int cityY = cityMidY - squareHalf;
 			Owner owner = c.getOwner();
-			
-			
-			// set Button
-			jbutton = new JButton();
-			jbutton.setBounds(cityX, cityY, citySquareSize, citySquareSize);
-			jbutton.setName(c.getID() + "");
-			jbutton.setBackground(getCityColor(owner));
-			
-			// buttons wont get painted
-			jbutton.setContentAreaFilled(false);
-			
-		
+					
 			// draws the text and the rect
 			String drawString = Integer.toString(c.getID());
 			
@@ -141,12 +139,32 @@ public class Board extends JPanel{
 			
 			
 			// adds button
+			jbutton = buttonFactory(cityX, cityY);
 			buttonMap.put(c.getID(), jbutton);
 			
-			add(buttonMap.get(c.getID()));
+			add(jbutton);
+			
 		}
 		
 	}
+	
+	private JButton buttonFactory(int x, int y){
+		
+		JButton result = new JButton();
+		result.setBounds(x, y, citySquareSize, citySquareSize);
+		
+		result.setContentAreaFilled(false);
+		result.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		
+		return result;		
+	}
+	
 	
 	public Color getCityColor(Owner owner){
 		if(owner == Owner.Rom){

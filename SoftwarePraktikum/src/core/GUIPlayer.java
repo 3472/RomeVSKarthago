@@ -1,5 +1,7 @@
 package core;
 
+import GUI.Board;
+
 public class GUIPlayer extends PlayerAbs{
 
 	private Board b;
