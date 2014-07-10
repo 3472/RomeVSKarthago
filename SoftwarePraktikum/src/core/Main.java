@@ -27,7 +27,8 @@ public class Main {
 		String[] test10 = {"-local","-kinormalj","-kijh","res/bigmap.mp"};
 		String[] test11 = {"-local","-kieasyj","-kijh","res/bigmap.mp"};
 		String[] test12 = {"-local","-kijh","-kieasyj","res/bigmap.mp"};
-		new Main(test2);
+		String[] test13 = {"-local","-consolePlayer","-kieasyj","res/test2.mp"};
+		new Main(test13);
 	}
 	
 	
@@ -161,7 +162,7 @@ public class Main {
 	 *
 	 * @return returns a player
 	 */
-	private PlayerAbs getPlayerFromString(String name, Player p){
+	public static PlayerAbs getPlayerFromString(String name, Player p){
 		if(name.toUpperCase().equals("-WASP")){
 		
 			return new Wasp(p);
@@ -202,7 +203,7 @@ public class Main {
 		return null;
 	}
 	
-	private ArrayList<String> readMapFileAndMove(String mappath){
+	public static ArrayList<String> readMapFileAndMove(String mappath){
 		BufferedReader fileReader = null;
 		String line = null;
 

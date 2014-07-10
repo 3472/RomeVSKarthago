@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import javax.swing.text.PlainDocument;
 
 import GUI.Board;
+import GUI.GameFrame;
 
 /*
  * Die Klasse ist sehr ���hnlich zu der Main-Loop die wir sp���ter brauchen
@@ -20,8 +21,8 @@ public class ConsolGame implements GameLogic{
 	
 	private boolean GameOver;
 	private Board gameBoard;
+	private GameFrame gameFrame;
 	private City_Graph city_Graph;
-
 
 	private History history;
 	private PlayerAbs pl1,pl2,currentPlayer;
@@ -40,6 +41,7 @@ public class ConsolGame implements GameLogic{
 		
 		if(guiMode){
 			gameBoard = new Board(city_Graph);
+			gameFrame = new GameFrame(gameBoard, this);
 		}
 		
 		pl1 = player1;
@@ -89,6 +91,7 @@ public class ConsolGame implements GameLogic{
 			 */
 			if(guiMode){
 				gameBoard.setNewGraph(city_Graph);
+				gameFrame.repaint();
 			}
 			
 		}
@@ -197,6 +200,7 @@ public class ConsolGame implements GameLogic{
 		}
 	}
 	
+	public boolean isGameOver() { return GameOver; }
 	public Move getFinalMove(){ return prevMove; }
 	
 	public History getHistory(){ return history; }

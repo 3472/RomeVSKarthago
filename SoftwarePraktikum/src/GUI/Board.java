@@ -73,7 +73,7 @@ public class Board extends JPanel{
 
 		
 		jframe.add(this);
-		jframe.setVisible(true);
+		jframe.setVisible(false);
 		repaint();
 	
 	}
@@ -88,7 +88,7 @@ public class Board extends JPanel{
 	public void setNewGraph(City_Graph new_city_graph){
 		this.city_graph = new_city_graph;
 		
-		repaint();
+		//repaint();
 	}
 	
 	
@@ -177,5 +177,9 @@ public class Board extends JPanel{
 	
 	public void setGraph(City_Graph graph){
 		city_graph = graph;
+	}
+	
+	public City_Graph getGraph() {
+		return city_graph;
 	}
 }

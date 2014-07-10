@@ -2,7 +2,7 @@ package core;
 
 import java.io.PrintWriter;
 
-abstract class PlayerAbs {
+public abstract class PlayerAbs {
 
 	boolean forfeits;
 	public int skip;
