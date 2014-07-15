@@ -31,7 +31,7 @@ public class Main {
 		String[] test13 = {"-local","-kieasyj","-kieasyj","res/bigmap.mp"};
 		new Main(test13);
 	}
-	
+	//kom
 	
 	public Main(String[] args){
 		if(args.length < 3){
