@@ -19,7 +19,7 @@ public class AITest {
 		tester.loadMapByPath("res/test.mp");
 		Wasp p1 = new Wasp(Player.Rom);
 		Wasp p2 = new Wasp(Player.Cathargo);
-		ConsolGame cg = new ConsolGame(tester, p1 ,p2, false);
+		ConsolGame cg = new ConsolGame(null, tester, p1 ,p2, false);
 		History history = cg.getHistory();
 		
 		
@@ -40,7 +40,7 @@ public class AITest {
 		tester.loadMapByPath("res/test.mp");
 		Wasp p1 = new Wasp(Player.Rom);
 		Sloth p2 = new Sloth(Player.Cathargo);
-		ConsolGame cg = new ConsolGame(tester, p1 ,p2, false);
+		ConsolGame cg = new ConsolGame(null, tester, p1 ,p2, false);
 		History history = cg.getHistory();
 		
 		
@@ -72,7 +72,7 @@ public class AITest {
 		tester.loadMapByPath("res/test.mp");
 		Sloth p1 = new Sloth(Player.Rom);
 		Wasp p2 = new Wasp(Player.Cathargo);
-		ConsolGame cg = new ConsolGame(tester, p1 ,p2, false);
+		ConsolGame cg = new ConsolGame(null, tester, p1 ,p2, false);
 		History history = cg.getHistory();
 		
 		
@@ -104,7 +104,7 @@ public class AITest {
 		tester.loadMapByPath("res/test.mp");
 		Sloth p1 = new Sloth(Player.Rom);
 		Sloth p2 = new Sloth(Player.Cathargo);
-		ConsolGame cg = new ConsolGame(tester, p1 ,p2, false);
+		ConsolGame cg = new ConsolGame(null, tester, p1 ,p2, false);
 		History history = cg.getHistory();
 		
 		History shouldBe = new History();

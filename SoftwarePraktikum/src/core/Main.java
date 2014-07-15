@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import GUI.Board;
 import network.Client;
 import network.NetworkIOHandler;
 import network.Server;
@@ -20,14 +21,14 @@ public class Main {
 		String[] test3 = {"-local","-sloth","-kinormalj","res/bigmap.mp"};
 		String[] test4 = {"-local","-killjoy","-kinormalj","res/bigmap.mp"};
 		String[] test5 = {"-local","-kieasyj","-kinormalj","res/midmap.mp"};
-		String[] test6 = {"-local","-kinormalj","-kieasyj","res/editormap.mp"};
+		String[] test6 = {"-local","-kinormalj","-kieasyj","res/6mal6.mp"};
 		String[] test7 = {"-local","-kieasyj","-kinormalj","res/bigmap.mp"};
 		String[] test8 = {"-local","-kinormalj","-kieasyj","res/bigmap.mp"};
 		String[] test9 = {"-local","-kijh","-kinormalj","res/bigmap.mp"};
-		String[] test10 = {"-local","-kinormalj","-kijh","res/bigmap.mp"};
+		String[] test10 = {"-local","-kinormalj","-kinormalj","res/bigmap.mp"};
 		String[] test11 = {"-local","-kieasyj","-kijh","res/bigmap.mp"};
 		String[] test12 = {"-local","-kijh","-kieasyj","res/bigmap.mp"};
-		String[] test13 = {"-local","-consolePlayer","-kieasyj","res/test2.mp"};
+		String[] test13 = {"-local","-kieasyj","-kieasyj","res/bigmap.mp"};
 		new Main(test13);
 	}
 	
@@ -60,17 +61,22 @@ public class Main {
 	 * Input for Server: 1. -server 2. port 3. (local) player
 	 */
 	private void initServerGame(String[] args) throws IOException {
-		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo);
+		
 		
 		int port = Integer.parseInt(args[1]);
 		Server server = new Server();
 		City_Graph cityGraph = new City_Graph();
 		cityGraph.loadMapByStrings(server.initServer(port));
+		Board gameBoard = new Board(cityGraph);
+		
+		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo, gameBoard);
+		
+	
 		
 		PlayerAbs p1 = new NetworkPlayer(Player.Rom, server);
 		
 		
-		ConsolGame cg = new ConsolGame(cityGraph, p1, p2, true);
+		ConsolGame cg = new ConsolGame(gameBoard, cityGraph, p1, p2, true);
 		server.sendMove(cg.getFinalMove());
 		server.endConnection();
 	}
@@ -86,21 +92,21 @@ public class Main {
 		ArrayList<String> mapdata = this.readMapFileAndMove(args[3]);
 		
 		
-		PlayerAbs p1 = getPlayerFromString(args[2], Player.Rom);
-		
-		if(mapdata == null || p1 == null){
-			System.exit(1);
-		}
-
-	
-		
 		City_Graph cityGraph = new City_Graph();
 		if(!cityGraph.loadMapByPath(args[3])){
 			System.out.println(
 					"ERROR while loading map. closing Programm");
 			System.exit(1);
 		}
-	
+		Board gameBoard = new Board(cityGraph);
+		
+		
+		PlayerAbs p1 = getPlayerFromString(args[2], Player.Rom, gameBoard);
+		
+		if(mapdata == null || p1 == null){
+			System.exit(1);
+		}
+
 		
 		int port = Integer.parseInt(args[1]);
 		Client client = new Client();
@@ -117,7 +123,7 @@ public class Main {
 
 		PlayerAbs p2 = new NetworkPlayer(Player.Cathargo, client);
 		
-		ConsolGame cg = new ConsolGame(cityGraph, p1, p2, true);
+		ConsolGame cg = new ConsolGame(gameBoard, cityGraph, p1, p2, true);
 		client.sendMove(cg.getFinalMove());
 		client.endConection();
 	}
@@ -129,12 +135,21 @@ public class Main {
 	 */
 	private void initLocalGame(String[] args) {
 
-		PlayerAbs p1 = getPlayerFromString(args[1], Player.Rom);
+		City_Graph cityGraph = new City_Graph();
+		if(!cityGraph.loadMapByPath(args[3])){
+			System.out.println(
+					"ERROR while loading map. closing Programm");
+			System.exit(1);
+		}
+		Board gameBoard = new Board(cityGraph);
+		
+		
+		PlayerAbs p1 = getPlayerFromString(args[1], Player.Rom, gameBoard);
 		if(p1 == null){
 			System.out.println("Wrong first player");
 			System.exit(1);
 		}
-		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo);
+		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo,gameBoard);
 		if(p2 == null){
 			System.out.println("Wrong second player");
 			System.exit(1);
@@ -144,14 +159,7 @@ public class Main {
 		System.out.println("Player2: " + p2.getClass().getName());	
 		
 		
-		City_Graph cityGraph = new City_Graph();
-		if(!cityGraph.loadMapByPath(args[3])){
-			System.out.println(
-					"ERROR while loading map. closing Programm");
-			System.exit(1);
-		}
-		
-		new ConsolGame(cityGraph, p1, p2, true);
+		new ConsolGame(gameBoard, cityGraph, p1, p2, true);
 	}
 
 
@@ -162,7 +170,7 @@ public class Main {
 	 *
 	 * @return returns a player
 	 */
-	public static PlayerAbs getPlayerFromString(String name, Player p){
+	public static PlayerAbs getPlayerFromString(String name, Player p, Board b){
 		if(name.toUpperCase().equals("-WASP")){
 		
 			return new Wasp(p);
@@ -197,7 +205,9 @@ public class Main {
 			return new KINormalJ(p);
 		}else if(name.toUpperCase().equals("-KIJH")){
 			
-			//return new KIJH(p);
+			return new KIJH(p);
+		}else if(name.toUpperCase().equals("-GUIPLAYER")){
+			return new GUIPlayer(p,b);
 		}
 		
 		return null;

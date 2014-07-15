@@ -32,7 +32,7 @@ public class ConsolGame implements GameLogic{
 	
 	private boolean guiMode;
 	
-	public ConsolGame(City_Graph cityGraph, PlayerAbs player1, PlayerAbs player2, boolean guiMode){
+	public ConsolGame(Board b, City_Graph cityGraph, PlayerAbs player1, PlayerAbs player2, boolean guiMode){
 		city_Graph = cityGraph;
 		this.guiMode = guiMode;
 		
@@ -40,7 +40,7 @@ public class ConsolGame implements GameLogic{
 		history.add(city_Graph);
 		
 		if(guiMode){
-			gameBoard = new Board(city_Graph);
+			gameBoard = b;
 			gameFrame = new GameFrame(gameBoard, this);
 		}
 		
@@ -53,6 +53,7 @@ public class ConsolGame implements GameLogic{
 		//Thread th = new Thread(this);
 		//th.start();
 	}
+	
 	
 	
 	//Johannes

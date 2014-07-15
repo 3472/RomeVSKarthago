@@ -32,6 +32,9 @@ public class Board extends JPanel{
 	private int boardOffset;
 	private int citySquareSize;
 	private Map<Integer, JButton> buttonMap;
+	private boolean waitForTurn = false;
+	private int clickedId = -1;
+	private boolean doneTurn = false;
 	
 	
 	private Color neutralColor;
@@ -139,7 +142,7 @@ public class Board extends JPanel{
 			
 			
 			// adds button
-			jbutton = buttonFactory(cityX, cityY);
+			jbutton = buttonFactory(cityX, cityY, c.getID());
 			buttonMap.put(c.getID(), jbutton);
 			
 			add(jbutton);
@@ -148,7 +151,7 @@ public class Board extends JPanel{
 		
 	}
 	
-	private JButton buttonFactory(int x, int y){
+	private JButton buttonFactory(int x, int y, final int id){
 		
 		JButton result = new JButton();
 		result.setBounds(x, y, citySquareSize, citySquareSize);
@@ -159,11 +162,38 @@ public class Board extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
+				if(waitForTurn){
+					waitForTurn = false;
+					doneTurn = true;
+					clickedId = id;
+					System.out.println(id);
+					//Board.this.notify();
+				}
+				
 			}
 		});
 		
 		return result;		
 	}
+	
+	
+	public int getID(){
+		System.out.println("test");
+		this.waitForTurn = true;
+		while(!doneTurn){
+			
+			try {
+				Thread.sleep(200);
+				System.out.println("waiting");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		doneTurn = false;
+		return this.clickedId;
+	}
+	
 	
 	
 	public Color getCityColor(Owner owner){
