@@ -17,21 +17,11 @@ public class Main {
 
 	public static void main(String[] args){
 		String[] test1 = {"-server","7762","-sloth"};
-		String[] test2 = {"-client","7762","-consolePlayer","res/bigmap.mp"};
+		String[] test2 = {"-client","7762","-wasp","res/test.mp"};
 		String[] test3 = {"-local","-sloth","-kinormalj","res/bigmap.mp"};
-		String[] test4 = {"-local","-killjoy","-kinormalj","res/bigmap.mp"};
-		String[] test5 = {"-local","-kieasyj","-kinormalj","res/midmap.mp"};
-		String[] test6 = {"-local","-kinormalj","-kieasyj","res/6mal6.mp"};
-		String[] test7 = {"-local","-kieasyj","-kinormalj","res/bigmap.mp"};
-		String[] test8 = {"-local","-kinormalj","-kieasyj","res/bigmap.mp"};
-		String[] test9 = {"-local","-kijh","-kinormalj","res/bigmap.mp"};
-		String[] test10 = {"-local","-kinormalj","-kinormalj","res/bigmap.mp"};
-		String[] test11 = {"-local","-kieasyj","-kijh","res/bigmap.mp"};
-		String[] test12 = {"-local","-kijh","-kieasyj","res/bigmap.mp"};
-		String[] test13 = {"-local","-kieasyj","-kieasyj","res/bigmap.mp"};
-		new Main(test13);
+		new Main(test1);
 	}
-	//kom
+	
 	
 	public Main(String[] args){
 		if(args.length < 3){
@@ -40,11 +30,7 @@ public class Main {
 		}
 			
 		if(args[0].equals("-server")){
-			try {
-				initServerGame(args);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			initServerGame(args);
 		}else if(args[0].equals("-client")){
 			initClientGame(args);
 		}else if(args[0].equals("-local")){
@@ -60,25 +46,35 @@ public class Main {
 	/*
 	 * Input for Server: 1. -server 2. port 3. (local) player
 	 */
-	private void initServerGame(String[] args) throws IOException {
+	private void initServerGame(String[] args) {
 		
 		
 		int port = Integer.parseInt(args[1]);
 		Server server = new Server();
 		City_Graph cityGraph = new City_Graph();
-		cityGraph.loadMapByStrings(server.initServer(port));
+		
+		try {
+			cityGraph.loadMapByStrings(server.initServer(port));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		Board gameBoard = new Board(cityGraph);
 		
-		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo, gameBoard);
 		
-	
+		PlayerAbs p2 = getPlayerFromString(args[2], Player.Cathargo, gameBoard);
 		
 		PlayerAbs p1 = new NetworkPlayer(Player.Rom, server);
 		
 		
-		ConsolGame cg = new ConsolGame(gameBoard, cityGraph, p1, p2, true);
-		server.sendMove(cg.getFinalMove());
-		server.endConnection();
+		new ConsolGame(gameBoard, cityGraph, p1, p2, true);
+		
+		
+		try {
+			server.endConnection();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -123,8 +119,8 @@ public class Main {
 
 		PlayerAbs p2 = new NetworkPlayer(Player.Cathargo, client);
 		
-		ConsolGame cg = new ConsolGame(gameBoard, cityGraph, p1, p2, true);
-		client.sendMove(cg.getFinalMove());
+		new ConsolGame(gameBoard, cityGraph, p1, p2, true);
+		
 		client.endConection();
 	}
 

@@ -46,5 +46,10 @@ public class NetworkPlayer extends PlayerAbs{
 		
 		return new Move(p, Integer.parseInt(input.split(" ")[1]));
 	}
+	
+	@Override
+	public void gameEnded(Move finalMove){
+		network.sendMove(finalMove);
+	}
 
 }

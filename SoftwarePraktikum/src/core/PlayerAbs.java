@@ -33,6 +33,10 @@ public abstract class PlayerAbs {
 	        else return owner;
 	  }
 	
+	
+	 public void gameEnded(Move finalMove){
+		 
+	 }
 	  
 
 	public Move forfitMove(){

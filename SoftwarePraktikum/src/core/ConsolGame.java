@@ -178,18 +178,21 @@ public class ConsolGame implements GameLogic{
 		
 		// der CityGraph wird jetzt immer hinzugefügt
 		history.add(city_Graph);
+		
 		prevMove = move;
-
 		if(pl1.skip == 1 && pl2.skip == 1){
 			GameOver = true;
 			System.out.println("game over");
 			System.out.println("SCORE:");
 			System.out.println("ROM: " + city_Graph.getScore(Owner.Rom));
 			System.out.println("CATHARGO: " + city_Graph.getScore(Owner.Cathargo));
+			pl1.gameEnded(prevMove);
+			pl2.gameEnded(prevMove);
 	
 		}
 			
 
+		
 		System.out.println(city_Graph.convertGameStateToString());
 
 		
@@ -202,7 +205,6 @@ public class ConsolGame implements GameLogic{
 	}
 	
 	public boolean isGameOver() { return GameOver; }
-	public Move getFinalMove(){ return prevMove; }
 	
 	public History getHistory(){ return history; }
 	
