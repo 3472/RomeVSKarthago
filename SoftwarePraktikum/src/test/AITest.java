@@ -9,41 +9,36 @@ import core.*;
 
 public class AITest {
 
-	
-
-	
 	@Test
-	public void WaspVsWaspTest(){
-		
+	public void WaspVsWaspTest() {
+
 		City_Graph tester = new City_Graph();
 		tester.loadMapByPath("res/test.mp");
 		Wasp p1 = new Wasp(Player.Rom);
 		Wasp p2 = new Wasp(Player.Cathargo);
-		ConsolGame cg = new ConsolGame(null, tester, p1 ,p2, false);
+		ConsolGame cg = new ConsolGame(null, tester, p1, p2, false);
 		History history = cg.getHistory();
-		
-		
+
 		History shouldBe = new History();
 		shouldBe.addStateAsString("CNNR");
 		shouldBe.addStateAsString("CNNR");
 		shouldBe.addStateAsString("CNNR");
-		
-		for(int i = 0; i < 3; i++){
+
+		for (int i = 0; i < 3; i++) {
 			assertEquals(shouldBe.getGameStateAt(i), history.getGameStateAt(i));
 		}
-		
+
 	}
-	
+
 	@Test
-	public void WaspVsSlothTest(){
+	public void WaspVsSlothTest() {
 		City_Graph tester = new City_Graph();
 		tester.loadMapByPath("res/test.mp");
 		Wasp p1 = new Wasp(Player.Rom);
 		Sloth p2 = new Sloth(Player.Cathargo);
-		ConsolGame cg = new ConsolGame(null, tester, p1 ,p2, false);
+		ConsolGame cg = new ConsolGame(null, tester, p1, p2, false);
 		History history = cg.getHistory();
-		
-		
+
 		History shouldBe = new History();
 		shouldBe.addStateAsString("CNNR");
 		shouldBe.addStateAsString("CNNR");
@@ -58,24 +53,22 @@ public class AITest {
 		shouldBe.addStateAsString("CCNN");
 		shouldBe.addStateAsString("CCNN");
 		shouldBe.addStateAsString("CCNN");
-		
-		
-		for(int i = 0; i < 13; i++){
-			assertEquals( shouldBe.getGameStateAt(i),history.getGameStateAt(i));
+
+		for (int i = 0; i < 13; i++) {
+			assertEquals(shouldBe.getGameStateAt(i), history.getGameStateAt(i));
 		}
-		
+
 	}
-	
+
 	@Test
-	public void SlothVsWaspTest(){
+	public void SlothVsWaspTest() {
 		City_Graph tester = new City_Graph();
 		tester.loadMapByPath("res/test.mp");
 		Sloth p1 = new Sloth(Player.Rom);
 		Wasp p2 = new Wasp(Player.Cathargo);
-		ConsolGame cg = new ConsolGame(null, tester, p1 ,p2, false);
+		ConsolGame cg = new ConsolGame(null, tester, p1, p2, false);
 		History history = cg.getHistory();
-		
-		
+
 		History shouldBe = new History();
 		shouldBe.addStateAsString("CNNR");
 		shouldBe.addStateAsString("NRNR");
@@ -91,22 +84,21 @@ public class AITest {
 		shouldBe.addStateAsString("RRRN");
 		shouldBe.addStateAsString("RRRN");
 		shouldBe.addStateAsString("RRRN");
-		
-		
-		for(int i = 0; i < 14; i++){
-			assertEquals( shouldBe.getGameStateAt(i), history.getGameStateAt(i));
+
+		for (int i = 0; i < 14; i++) {
+			assertEquals(shouldBe.getGameStateAt(i), history.getGameStateAt(i));
 		}
 	}
-	
+
 	@Test
-	public void SlothVsSlothTest(){
+	public void SlothVsSlothTest() {
 		City_Graph tester = new City_Graph();
 		tester.loadMapByPath("res/test.mp");
 		Sloth p1 = new Sloth(Player.Rom);
 		Sloth p2 = new Sloth(Player.Cathargo);
-		ConsolGame cg = new ConsolGame(null, tester, p1 ,p2, false);
+		ConsolGame cg = new ConsolGame(null, tester, p1, p2, false);
 		History history = cg.getHistory();
-		
+
 		History shouldBe = new History();
 		shouldBe.addStateAsString("CNNR");
 		shouldBe.addStateAsString("NRNR");
@@ -115,10 +107,9 @@ public class AITest {
 		shouldBe.addStateAsString("NNCN");
 		shouldBe.addStateAsString("RNCN");
 		shouldBe.addStateAsString("NCCN");
-		
-	
-		for(int i = 0; i < 7; i++){
-			assertEquals( shouldBe.getGameStateAt(i), history.getGameStateAt(i));
+
+		for (int i = 0; i < 7; i++) {
+			assertEquals(shouldBe.getGameStateAt(i), history.getGameStateAt(i));
 		}
 	}
 

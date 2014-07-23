@@ -14,198 +14,191 @@ import GUI.GameFrame;
  * Die Klasse ist sehr ���hnlich zu der Main-Loop die wir sp���ter brauchen
  */
 
-
 //Johannes
 //Du k���mmerst dich darum, die Konsolen aplikation zum laufen zu bringen, hab schon mal ein Grundger���st vor getippt
-public class ConsolGame implements GameLogic{
-	
+public class ConsolGame implements GameLogic {
+
 	private boolean GameOver;
 	private Board gameBoard;
 	private GameFrame gameFrame;
 	private City_Graph city_Graph;
 
 	private History history;
-	private PlayerAbs pl1,pl2,currentPlayer;
+	private PlayerAbs pl1, pl2, currentPlayer;
 	private Move move;
 	private Move prevMove;
 	private boolean moveMake;
-	
+
 	private boolean guiMode;
-	
-	public ConsolGame(Board b, City_Graph cityGraph, PlayerAbs player1, PlayerAbs player2, boolean guiMode){
+
+	public ConsolGame(Board b, City_Graph cityGraph, PlayerAbs player1,
+			PlayerAbs player2, boolean guiMode) {
 		city_Graph = cityGraph;
 		this.guiMode = guiMode;
-		
+
 		history = new History();
 		history.add(city_Graph);
-		
-		if(guiMode){
+
+		if (guiMode) {
 			gameBoard = b;
 			gameFrame = new GameFrame(gameBoard, this);
 		}
-		
+
 		pl1 = player1;
 		pl2 = player2;
 		currentPlayer = player1;
 		prevMove = null;
-		
+
 		runs();
-		//Thread th = new Thread(this);
-		//th.start();
+		// Thread th = new Thread(this);
+		// th.start();
 	}
-	
-	
-	
-	//Johannes
+
+	// Johannes
 	public void runs() {
 
-		
 		GameOver = false;
-		while(!GameOver){
-			
+		while (!GameOver) {
+
 			moveMake = false;
-		
+
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//TODO: Send Move change
-			
+			// TODO: Send Move change
+
 			System.out.print("> ");
 			move = null;
 			move = currentPlayer.makeMove(city_Graph, history, prevMove);
-			if(move != null){
+			if (move != null) {
 				System.out.println(move.toString());
 			}
-			
-		
-			
+
 			doLogic();
-			
-			
-	
+
 			/*
-			 * (nicht vergessen das city_graph = newCityGraph 
-			 * DAVOR aufgerufen werden sollte)
+			 * (nicht vergessen das city_graph = newCityGraph DAVOR aufgerufen
+			 * werden sollte)
 			 */
-			if(guiMode){
+			if (guiMode) {
 				gameBoard.setNewGraph(city_Graph);
 				gameFrame.repaint();
 			}
-			
+
 		}
-		
+
 	}
-	
-	
-	//Gerald
+
+	// Gerald
+	/**
+	 * 
+	 * @param move
+	 * @param graph
+	 * @param currentPlayer
+	 * @return Zustand des Spiels nach Spielzug
+	 */
 	@Override
-	public String logic(Move move, City_Graph graph,PlayerAbs currentPlayer) {
-		
-		if(move == null || move.getCityID() == -1) {	
+	public String logic(Move move, City_Graph graph, PlayerAbs currentPlayer) {
+
+		if (move == null || move.getCityID() == -1) {
+			return "Illegal";
+		} else {
+			City_Graph newGraph = graph.gameStateTransition(move);
+
+			if (history.contains(newGraph) && !currentPlayer.forfeits) {
 				return "Illegal";
-		}
-		else {
-				City_Graph newGraph = graph.gameStateTransition(move);	
-	
-			if(history.contains(newGraph) && !currentPlayer.forfeits){	
-				return "Illegal";		
-			}
-			else {	
+			} else {
 				return "Legal";
-			}	
+			}
 		}
 	}
 
-	
-	//Gerald
+	// Gerald
 	/*
-	 * Die Methode soll die Ausgaben von GameLogic() nutzen und Richtig auf die Ausgaben reagieren
-	 * Z.B bei einem Ilegalen Zug soll bleibt der Graph gleich und Aussetzen wird eins hochgesetzt,
+	 * Die Methode soll die Ausgaben von GameLogic() nutzen und Richtig auf die
+	 * Ausgaben reagieren Z.B bei einem Ilegalen Zug soll bleibt der Graph
+	 * gleich und Aussetzen wird eins hochgesetzt,
 	 * 
 	 * 
 	 * Bei einem Legal Zug wird city_Graph durch den neuen Graph ersetzt
 	 */
+
 	private void doLogic() {
 		// TODO Auto-generated method stub
-		
-		
-		//TODO Auf ausgaben von logic reagieren
+
+		// TODO Auf ausgaben von logic reagieren
 		/*
-		 * Bei einem Legalen Zug:
-		 * 	- graph durch neuen erstetzen
-		 * 	- neuen Graph erzeugen
-		 * 	- den neuen graph in die History einf���gen
-		 * 	- Skips werden zur���ck gesetzt vom aktl spieler
-		 * 	- Passende Consolen-Ausgaben
-		 * Bei einem ilegalen Zug
-		 * 	-Graph bleibt bestehen
-		 * 	-Skip wird hochgesetzt
-		 * 	- Passende Consolen-Ausgaben
-		 * Bei GameOver
-		 * 	-Graph aktualliesieren
-		 * 	- Passende Consolen-Ausgaben
-		 * 
+		 * Bei einem Legalen Zug: - graph durch neuen erstetzen - neuen Graph
+		 * erzeugen - den neuen graph in die History einf���gen - Skips werden
+		 * zur���ck gesetzt vom aktl spieler - Passende Consolen-Ausgaben Bei
+		 * einem ilegalen Zug -Graph bleibt bestehen -Skip wird hochgesetzt -
+		 * Passende Consolen-Ausgaben Bei GameOver -Graph aktualliesieren -
+		 * Passende Consolen-Ausgaben
 		 */
-		
-		
+
 		String status = logic(move, city_Graph, currentPlayer);
 
-		if(status.equals("Legal")) {	
+		if (status.equals("Legal")) {
 
 			// changed by johannes
-			if(currentPlayer.forfeits) {
+			if (currentPlayer.forfeits) {
 				currentPlayer.skip = 1;
 				currentPlayer.forfeits = false;
-			}
-			else {
+			} else {
 				city_Graph = city_Graph.gameStateTransition(move);
-		
+
 				pl1.skip = 0;
 				pl2.skip = 0;
-	
-			}	
-			
-		}	
 
-		else if(status.equals("Illegal")) {
+			}
+
+		}
+
+		else if (status.equals("Illegal")) {
 			System.out.println("Illegal move");
-			currentPlayer.skip = 1;	
+			currentPlayer.skip = 1;
 
-		}	
-		
+		}
+
 		// der CityGraph wird jetzt immer hinzugefügt
 		history.add(city_Graph);
-		
+
 		prevMove = move;
-		if(pl1.skip == 1 && pl2.skip == 1){
+		if (pl1.skip == 1 && pl2.skip == 1) {
 			GameOver = true;
 			System.out.println("game over");
 			System.out.println("SCORE:");
 			System.out.println("ROM: " + city_Graph.getScore(Owner.Rom));
-			System.out.println("CATHARGO: " + city_Graph.getScore(Owner.Cathargo));
+			System.out.println("CATHARGO: "
+					+ city_Graph.getScore(Owner.Cathargo));
 			pl1.gameEnded(prevMove);
 			pl2.gameEnded(prevMove);
-	
-		}
-			
 
-		
+		}
+
 		System.out.println(city_Graph.convertGameStateToString());
 
-		
-		
-		if(currentPlayer == pl2){
+		if (currentPlayer == pl2) {
 			currentPlayer = pl1;
-		}else{
+		} else {
 			currentPlayer = pl2;
 		}
 	}
-	
-	public boolean isGameOver() { return GameOver; }
-	
-	public History getHistory(){ return history; }
-	
+
+	public boolean isGameOver() {
+		return GameOver;
+	}
+
+	public History getHistory() {
+		return history;
+	}
+
+	public PlayerAbs getCurrentPlayer() {
+		return currentPlayer;
+
+	}
+
 }

@@ -20,6 +20,11 @@ public class History {
 	/*
 	 * Ueberprueft ob es diesen Spielzustand schon mal gab
 	 */
+	/**
+	 * 
+	 * @param graph
+	 * @return true falls der Graph graph schonmal vorkam
+	 */
 	public boolean contains(City_Graph graph) {
 
 		String gameState = graph.convertGameStateToString();
@@ -44,41 +49,40 @@ public class History {
 	public boolean add(City_Graph graph) {
 		boolean res = true;
 		lastMoveIllegal = false;
-		
-		
+
 		if (contains(graph)) {
 			res = false;
 			lastMoveIllegal = true;
 		}
-		
+
 		String gameState = graph.convertGameStateToString();
 		history.add(gameState);
-		
+
 		return res;
 
 	}
-	
+
 	/**
-	 * NOTE: This function is only used
-	 * 		 for test Cases.
-	 * 		 Don't use this in the actual programm
+	 * NOTE: This function is only used for test Cases. Don't use this in the
+	 * actual programm
+	 * 
 	 * @param graph
 	 */
-	public void addStateAsString(String graph){
+	public void addStateAsString(String graph) {
 		history.add(graph);
 	}
-	
-	public boolean wasLastMoveIllegal(){
+
+	public boolean wasLastMoveIllegal() {
 		return lastMoveIllegal;
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param turn wanted turn
+	 * @param turn
+	 *            wanted turn
 	 * @return String representing the map
 	 */
-	public String getGameStateAt(int turn){
+	public String getGameStateAt(int turn) {
 		return history.get(turn);
 	}
 }

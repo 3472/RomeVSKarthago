@@ -12,45 +12,46 @@ import org.junit.Before;
 
 public class TerminalTestSession {
 
-		City_Graph city_graph = new City_Graph();
-		
-		@Before
-		public void init(){
-			city_graph.loadMapByPath("res/test.mp");
+	City_Graph city_graph = new City_Graph();
+
+	@Before
+	public void init() {
+		city_graph.loadMapByPath("res/test.mp");
+	}
+
+	public void loadTerminalSession(String Sessionpath) {
+
+		BufferedReader fileReader = null;
+		String line = null;
+		try {
+			fileReader = new BufferedReader(new FileReader(Sessionpath));
+			line = fileReader.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		public void loadTerminalSession(String Sessionpath){
-			
-			BufferedReader fileReader = null;
-			String line = null;
+
+		while (line != null) {
+			String expectedOutput;
+			String moveString = line.substring(2);
+			Move move = new Move(moveString);
+
 			try {
 				fileReader = new BufferedReader(new FileReader(Sessionpath));
 				line = fileReader.readLine();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			
-			while(line!=null){
-				String expectedOutput;
-				String moveString = line.substring(2);
-				Move move = new Move(moveString);
-				
-				try {
-					fileReader = new BufferedReader(new FileReader(Sessionpath));
-					line = fileReader.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();}
-				
-				expectedOutput = line;
-				city_graph = city_graph.gameStateTransition(move);
-				assertEquals(city_graph.convertGameStateToString(), expectedOutput);
-		
-				
-				try {
-					fileReader = new BufferedReader(new FileReader(Sessionpath));
-					line = fileReader.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();}
+
+			expectedOutput = line;
+			city_graph = city_graph.gameStateTransition(move);
+			assertEquals(city_graph.convertGameStateToString(), expectedOutput);
+
+			try {
+				fileReader = new BufferedReader(new FileReader(Sessionpath));
+				line = fileReader.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
+	}
 }
