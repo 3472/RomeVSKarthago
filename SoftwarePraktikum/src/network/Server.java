@@ -18,6 +18,8 @@ public class Server extends NetworkIO implements ServerIOHandler {
 	private Socket client;
 	private BufferedReader fromClient;
 	private PrintWriter toClient;
+	private String move;
+	private boolean firstMove = false;
 
 	private final long WAIT = 60000;//1 Minute
 	private final Pattern MOVEPATTERN = Pattern.compile("R X|R [0-9]+");
@@ -32,12 +34,16 @@ public class Server extends NetworkIO implements ServerIOHandler {
 
 	@Override
 	public String readMove() throws IOException {
+		
+		if(firstMove){
+			firstMove = false;
+			return move;
+		}
 		long time = System.currentTimeMillis() + WAIT;
 		
 		//Das laesst sich bestimmt noch effektiver und schoener Loesen
 		while(!fromClient.ready()){
 			try {
-				//System.out.println("Ich warte");
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -76,6 +82,7 @@ public class Server extends NetworkIO implements ServerIOHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.exit(0);
 	}
 
 	@Override
@@ -131,7 +138,8 @@ public class Server extends NetworkIO implements ServerIOHandler {
 			if(matcher.matches()){
 				resultList.add(line);
 			}else if((matcher = MOVEPATTERN.matcher(line)).matches()){
-				System.out.println(fromClient.ready());
+				move = line;
+				firstMove = true;
 				break;
 			}else{
 				resultList = null;
@@ -143,16 +151,4 @@ public class Server extends NetworkIO implements ServerIOHandler {
 		
 	}
 	
-	/*public static void main(String[]args){
-		Server server = new Server();
-		try {
-			server.initServer(3142);
-			
-			server.readMove();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
-
 }

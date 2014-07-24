@@ -54,7 +54,7 @@ public class Move {
 	//Kai
 	public String toString(){		
 
-		return player == Player.Rom? "R " + targetCityID : "C" +" "+targetCityID;
+		return player == Player.Rom? "R " + (targetCityID == -1? "X" : targetCityID) : "C" +" "+(targetCityID == -1? "X" : targetCityID);
 	}
 
 }

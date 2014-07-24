@@ -43,8 +43,8 @@ public class NetworkPlayer extends PlayerAbs{
 		}else{
 			p = Player.Cathargo;
 		}
-		
-		return new Move(p, Integer.parseInt(input.split(" ")[1]));
+		String inputNum = input.split(" ")[1];
+		return new Move(p, inputNum.toUpperCase().equals("X")? -1: Integer.parseInt(inputNum));
 	}
 	
 	@Override

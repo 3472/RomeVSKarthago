@@ -5,5 +5,5 @@ import java.util.ArrayList;
 
 public interface ClientIOHandler extends NetworkIOHandler{
 
-	public void initClient(ArrayList<String> map, int port) throws IOException;
+	public void initClient(ArrayList<String> map, int port,String hostad) throws IOException;
 }

@@ -16,17 +16,17 @@ import network.Server;
 public class Main {
 
 	public static void main(String[] args){
-		String[] test1 = {"-server","7762","-sloth"};
-		String[] test2 = {"-client","7762","-wasp","res/test.mp"};
-		String[] test3 = {"-local","-sloth","-kinormalj","res/bigmap.mp"};
-		new Main(test1);
+		String[] test1 = {"-server","7762","-PriorityMan"};
+		String[] test2 = {"-client","7762","-PriorityMan","res/bigmap.mp","localhost"};
+		String[] test3 = {"-local","-guiplayer","-consoleplayer","res/bigmap.mp"};
+		new Main(test2);
 	}
 	
 	
 	public Main(String[] args){
 		if(args.length < 3){
 			System.out.println("ERROR: Invalid number of args");
-			System.exit(1);
+			System.exit(0);
 		}
 			
 		if(args[0].equals("-server")){
@@ -85,14 +85,14 @@ public class Main {
 	private void initClientGame(String[] args) {
 		
 		
-		ArrayList<String> mapdata = this.readMapFileAndMove(args[3]);
+		ArrayList<String> mapdata = this.readMapFile(args[3]);
 		
 		
 		City_Graph cityGraph = new City_Graph();
 		if(!cityGraph.loadMapByPath(args[3])){
 			System.out.println(
 					"ERROR while loading map. closing Programm");
-			System.exit(1);
+			System.exit(0);
 		}
 		Board gameBoard = new Board(cityGraph);
 		
@@ -100,7 +100,7 @@ public class Main {
 		PlayerAbs p1 = getPlayerFromString(args[2], Player.Rom, gameBoard);
 		
 		if(mapdata == null || p1 == null){
-			System.exit(1);
+			System.exit(0);
 		}
 
 		
@@ -111,7 +111,7 @@ public class Main {
 		
 		
 		try {
-			client.initClient(mapdata, port);
+			client.initClient(mapdata, port,args[4]);
 		} catch (IOException e) {
 		
 			e.printStackTrace();
@@ -204,12 +204,14 @@ public class Main {
 			return new KIJH(p);
 		}else if(name.toUpperCase().equals("-GUIPLAYER")){
 			return new GUIPlayer(p,b);
+		}else if(name.toUpperCase().equals("-PRIORITYMAN")){
+			return new PriorityMan(p);
 		}
 		
 		return null;
 	}
 	
-	public static ArrayList<String> readMapFileAndMove(String mappath){
+	public ArrayList<String> readMapFile(String mappath){
 		BufferedReader fileReader = null;
 		String line = null;
 
@@ -221,6 +223,8 @@ public class Main {
 			while((line = fileReader.readLine()) != null){
 				mapdata.add(line);
 			}
+			
+			fileReader.close();
 		
 		} catch (FileNotFoundException e) {
 			System.out.println("Failed to read File");
@@ -229,6 +233,7 @@ public class Main {
 			System.out.println("Failed to read File");
 			mapdata = null;
 		}
+		
 		
 		return mapdata;
 	}

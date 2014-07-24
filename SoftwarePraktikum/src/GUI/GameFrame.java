@@ -67,7 +67,7 @@ public class GameFrame extends JFrame {
 		gameBoard = board;
 		game = g;
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.weightx = 3.0;
+		gbc_panel.weightx = 14.0;
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 0;

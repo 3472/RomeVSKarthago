@@ -19,7 +19,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 	private final long WAIT = 60000;//1 Minute
 	private final Pattern MOVEPATTERN = Pattern.compile("C X|C [0-9]+");
 	
-	private final String EOL = System.getProperty("line.separator");
+	
 	
 	Socket server;
 	
@@ -67,14 +67,13 @@ public class Client extends NetworkIO implements ClientIOHandler{
 	
 	@Override
 	public void sendMove(Move move) {
-		//System.out.println("Sending Move To Server: " + move.toString());
 		toServer.println(move.toString());
 	}
 	
 	@Override
-	public void initClient(ArrayList<String> map, int port) throws IOException {
+	public void initClient(ArrayList<String> map, int port,String hostad) throws IOException {
 		
-		server = new Socket("localhost",port);
+		server = new Socket(hostad,port);
 		
 		fromServer = new BufferedReader(new InputStreamReader(server.getInputStream()));
 		toServer = new PrintWriter(server.getOutputStream(),true);
@@ -83,7 +82,6 @@ public class Client extends NetworkIO implements ClientIOHandler{
 			System.out.println("Client: "+str);
 			toServer.println(str);
 		}
-		toServer.println();
 	}
 	
 	public void endConection(){
@@ -95,7 +93,7 @@ public class Client extends NetworkIO implements ClientIOHandler{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.exit(1);
+		System.exit(0);
 	}	
 	
 
